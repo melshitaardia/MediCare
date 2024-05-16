@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['username'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
@@ -20,12 +20,12 @@ if (isset($_POST['logout'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="logout.css">
@@ -33,16 +33,13 @@ if (isset($_POST['logout'])) {
 </head>
 
 <body>
-<div class="linear-grad">
+    <div class="linear-grad">
         <div class="p-3 navbarbar">
-            <nav class="custom-navbar navbar navbar navbar-expand-lg navbar-dark bg-dark"
-                arial-label="Warmtalks navigation bar">
+            <nav class="custom-navbar navbar navbar navbar-expand-lg navbar-dark bg-dark" arial-label="Warmtalks navigation bar">
                 <div class="container">
                     <img src="images\logo1.png" class="logo">
                     <a class="navbar-brand" href="home.php">MediCare<span>.</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarsWarmtalks" aria-controls="navbarsWarmtalks" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsWarmtalks" aria-controls="navbarsWarmtalks" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars" style="color: #8b4513;"></i>
                     </button>
 
@@ -53,18 +50,16 @@ if (isset($_POST['logout'])) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="articles.php">Articles</a>
-                            </li> 
+                            </li>
                             <li><a class="nav-link" href="aboutus.php">About Us</a></li>
                             <li><a class="nav-link" href="faq.php">FAQ</a></li>
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <!-- <li><a class="btn btnlogin" href="login.php">Sign In</a></li> -->
-                            
-                        <li>
-                        <form method="POST" action="logout.php">
-                            <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
-                        </form>
-                        </li>
+                            <li>
+                                <form method="POST" action="logout.php">
+                                    <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -76,13 +71,13 @@ if (isset($_POST['logout'])) {
                 <div class="row justify-content-between">
                     <div class="col-lg-6 pb-3">
                         <div class="intro-excerpt">
-                            <h1><img src="images\logo1.png" >
+                            <h1><img src="images\logo1.png">
                                 <span class="warmtalks-text">MediCare</span>
                             </h1>
                             <h4>Welcome, <span class="warmtalks-text"><?php echo $username; ?>!</span></h4>
-                            <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
+                            <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                                iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
+                                Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
                             <p><a href="#discoverus" class="btn btn-secondary me-2">Get Started</a>
                                 <a href="explore.php" class="btn btn-white-outline">Explore</a>
                             </p>
@@ -113,8 +108,8 @@ if (isset($_POST['logout'])) {
                                     <img src="images/home/fitur/medical.png" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Warmtalks Connect</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
                                     Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
                             </div>
                         </div>
@@ -125,8 +120,8 @@ if (isset($_POST['logout'])) {
                                     <img src="images/home/fitur/stethoscope.png" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Pustaka Sumber Daya</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
                                     Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
                             </div>
                         </div>
@@ -137,8 +132,8 @@ if (isset($_POST['logout'])) {
                                     <img src="images/home/fitur/pharmacist.png" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Tetap Terinformasi dan Terinspirasi</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
                                     Non a, harum pariatur eligendi perspiciatis maxime numquam!
                                 </p>
                             </div>
@@ -150,8 +145,8 @@ if (isset($_POST['logout'])) {
                                     <img src="images/home/fitur/checkup.png" alt="Image" class="imf-fluid">
                                 </div>
                                 <h3>Personalized Mood Tracker</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
                                     Non a, harum pariatur eligendi perspiciatis maxime numquam!
                                 </p>
                             </div>
@@ -163,12 +158,12 @@ if (isset($_POST['logout'])) {
                     <div class="intro-excerpt">
                         <h1>"<span class="warmtalks-text">MediCare</span>: Bridging Hearts, Healing Minds"
                         </h1>
-                        <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!
-                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid 
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur? 
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!
+                        <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                            iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
+                            Non a, harum pariatur eligendi perspiciatis maxime numquam!
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
+                            iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
+                            Non a, harum pariatur eligendi perspiciatis maxime numquam!
                         </p>
                         <p><a href="aboutus.php" class="btn btn-secondary me-2">Learn More</a>
                         </p>
@@ -212,8 +207,7 @@ if (isset($_POST['logout'])) {
                     <ul class="list-unstyled custom-social">
                         <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
                         <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                                    <path
-                                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
                                 </svg></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
                     </ul>
@@ -269,10 +263,7 @@ if (isset($_POST['logout'])) {
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
 </html>

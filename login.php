@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(isset($_SESSION['username'])) {
+    unset($_SESSION['username']);
+}
 include 'database.php';
 
 function login($username, $password) {

@@ -1,0 +1,19 @@
+.logout-form {
+    text-align: end; 
+    margin-top: 20px; 
+    margin-bottom: 30px;
+    margin-right: 30px;
+}
+
+.logout-form button {
+    padding: 10px 20px; 
+    background-color: #E03F51; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.logout-form button:hover {
+    background-color: #31283B; 
+}

@@ -43,6 +43,10 @@ function insertData($email, $phone_number, $date, $time)
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        .btnlogin {
+            background: #E03F51;
+        }
+
         .card {
             border: 1px solid #ddd;
             border-radius: 8px;

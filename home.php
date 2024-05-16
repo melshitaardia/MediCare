@@ -54,11 +54,17 @@ if (isset($_POST['logout'])) {
                             <li class="nav-item">
                                 <a class="nav-link" href="articles.php">Articles</a>
                             </li> 
+                            <li><a class="nav-link" href="aboutus.php">About Us</a></li>
                             <li><a class="nav-link" href="faq.php">FAQ</a></li>
-                            <!-- <li><a class="nav-link" href="aboutus.php">About Us</a></li> -->
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <li><a class="btn btnlogin" href="login.php">Sign In</a></li>
+                            <!-- <li><a class="btn btnlogin" href="login.php">Sign In</a></li> -->
+                            
+                        <li>
+                        <form method="POST" action="logout.php">
+                            <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
+                        </form>
+                        </li>
                         </ul>
                     </div>
                 </div>

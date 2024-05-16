@@ -30,12 +30,12 @@
                     <div class="collapse navbar-collapse" id="navbarsWarmtalks">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="counseling.php">Consultation</a>
+                                <a class="nav-link" href="consultation.php">Consultation</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="topics.php">Articles</a>
+                                <a class="nav-link" href="articles.php">Articles</a>
                             </li> 
-                            <li><a class="nav-link" href="faq.php">About Us</a></li>
+                            <li><a class="nav-link" href="aboutus.php">About Us</a></li>
                             <li><a class="nav-link" href="faq.php">FAQ</a></li>
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">

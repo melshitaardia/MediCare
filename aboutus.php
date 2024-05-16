@@ -17,13 +17,13 @@ include 'database.php';
 </head>
 
 <body>
-    <div class="linear-grad">
+<div class="linear-grad">
         <div class="p-3 navbarbar">
             <nav class="custom-navbar navbar navbar navbar-expand-lg navbar-dark bg-dark"
                 arial-label="Warmtalks navigation bar">
                 <div class="container">
-                    <img src="images\logo.png" class="logo">
-                    <a class="navbar-brand" href="home.html">warmtalks<span>.</span></a>
+                    <img src="images\logo1.png" class="logo">
+                    <a class="navbar-brand" href="home.php">MediCare<span>.</span></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarsWarmtalks" aria-controls="navbarsWarmtalks" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -33,38 +33,22 @@ include 'database.php';
                     <div class="collapse navbar-collapse" id="navbarsWarmtalks">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="counseling.html">Counseling</a> <!-- #coba -->
+                                <a class="nav-link" href="consultation.php">Consultation</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Topics
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="nav-link dropdown-item" href="abusive.htm">Abusive Parenting</a></li>
-                                    <li><a class="nav-link dropdown-item" href="tixic.html">Toxic Parenting</a></li>
-                                    <li><a class="nav-link dropdown-item" href="blended.html">Blended Families</a></li>
-                                    <li><a class="nav-link dropdown-item" href="divorce.html">Divorce</a></li>
-                                    <li><a class="nav-link dropdown-item" href="financial.html">Financial Issues</a></li>
-                                    <li><a class="nav-link dropdown-item" href="commun.html">Poor or Non-existent Communication</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Explore
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="nav-link dropdown-item" href="explore.html#news">News</a></li>
-                                    <li><a class="nav-link dropdown-item" href="explore.html#articles">Articles</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="nav-link" href="faq.html">FAQ</a></li>
-                            <li><a class="nav-link" href="aboutus.html">About Us</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="articles.php">Articles</a>
+                            </li> 
+                            <li><a class="nav-link" href="aboutus.php">About Us</a></li>
+                            <li><a class="nav-link" href="faq.php">FAQ</a></li>
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <li><a class="btn btnlogin" href="login.html">Sign In</a></li>
-                            <li><a class="btn" href="counseling.html#moodcheck">Check Your Mood</a></li>
+                            <!-- <li><a class="btn btnlogin" href="login.php">Sign In</a></li> -->
+                            
+                        <li>
+                        <form method="POST" action="logout.php">
+                            <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
+                        </form>
+                        </li>
                         </ul>
                     </div>
                 </div>

@@ -1,9 +1,4 @@
 <?php
-    // $hostname = 'localhost';
-    // $username = 'root';
-    // $password = '';
-    // $database_name = 'projectAkhirPemweb';
-    
     function connectDB(){
     $mysqli = new mysqli('localhost','root','','projectAkhirPemweb');
 

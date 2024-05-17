@@ -156,14 +156,14 @@
 
                         <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="counseling.php">Consultation</a></li>
-                                <li><a href="topics.php">Articles</a></li>
+                                <li><a href="consultation.php">Consultation</a></li>
+                                <li><a href="articles.php">Articles</a></li>
                             </ul>
                         </div>
 
                         <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="explore.php">About Us</a></li>
+                                <li><a href="aboutus.php">About Us</a></li>
                                 <li><a href="faq.php">FAQ</a></li>
                             </ul>
                         </div>

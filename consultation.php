@@ -222,7 +222,7 @@ function insertData($email, $phone_number, $date, $time)
             <input type="submit" value="Submit">
         </form>
 
-        
+
         <footer class="footer-section">
         <div class="container relative">
             <div class="rows g-5 mb-5">
@@ -249,14 +249,14 @@ function insertData($email, $phone_number, $date, $time)
 
                         <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="counseling.php">Consultation</a></li>
-                                <li><a href="topics.php">Articles</a></li>
+                                <li><a href="consultation.php">Consultation</a></li>
+                                <li><a href="articles.php">Articles</a></li>
                             </ul>
                         </div>
 
                         <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="explore.php">About Us</a></li>
+                                <li><a href="aboutus.php">About Us</a></li>
                                 <li><a href="faq.php">FAQ</a></li>
                             </ul>
                         </div>
@@ -292,6 +292,7 @@ function insertData($email, $phone_number, $date, $time)
         </div>
     </footer>
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script>

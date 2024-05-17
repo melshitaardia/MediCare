@@ -233,15 +233,15 @@ include 'database.php';
         </div>
     </div>
 
-    <footer class="footer-section" id="cuaboutus">
+    <footer class="footer-section">
         <div class="container relative">
             <div class="rows g-5 mb-5">
                 <div class="col-lg-4 col-md-3">
-                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">warmtalks<span>.</span></a>
+                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">MediCare<span>.</span></a>
                     </div>
-                    <p class="mb-4">bywarmtalks@gmail.com</p>
+                    <p class="mb-4">byMediCare@gmail.com</p>
                     <p class="mb-4">+628XXXXXXXXXXXX</p>
-                    <p class="mb-4">@warmtalks</p>
+                    <p class="mb-4">@MediCare</p>
                     </p>
 
                     <ul class="list-unstyled custom-social">
@@ -259,23 +259,23 @@ include 'database.php';
 
                         <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="counseling.html">Counseling</a></li>
-                                <li><a href="topics.html">Topics</a></li>
+                                <li><a href="counseling.php">Consultation</a></li>
+                                <li><a href="topics.php">Articles</a></li>
                             </ul>
                         </div>
 
                         <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="explore.html">Explore</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
+                                <li><a href="explore.php">About Us</a></li>
+                                <li><a href="faq.php">FAQ</a></li>
                             </ul>
                         </div>
 
-                        <div class="col-6 col-sm-6 col-md-3">
+                        <!-- <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
-                                <li><a href="aboutus.html">About Us</a></li>
+                                <li><a href="aboutus.php">FAQ</a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -284,8 +284,8 @@ include 'database.php';
             <div class="border-top copyright">
                 <div class="row pt-4">
                     <div class="col-lg-6">
-                        <p class="mb-2 text-center text-lg-start">Bridging Hearts, Healing Minds  
-                            | Designed with love &hearts;</a>
+                        <p class="mb-2 text-center text-lg-start">Bridging Hearts, Healing Minds
+                            &hearts;</a>
 
                         </p>
                     </div>
@@ -299,7 +299,6 @@ include 'database.php';
 
                 </div>
             </div>
-
         </div>
     </footer>
 

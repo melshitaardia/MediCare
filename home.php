@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
-    exit;
-}
-
-$username = $_SESSION['username'];
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
 if (isset($_POST['logout'])) {
     session_unset();
@@ -55,11 +50,17 @@ if (isset($_POST['logout'])) {
                             <li><a class="nav-link" href="faq.php">FAQ</a></li>
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <li>
-                                <form method="POST" action="logout.php">
-                                    <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
-                                </form>
-                            </li>
+                            <?php if ($username) : ?>
+                                <li>
+                                    <form method="POST" action="">
+                                        <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
+                                    </form>
+                                </li>
+                            <?php else : ?>
+                                <li>
+                                    <a href="login.php" class="btn btnlogin">Login</a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -189,9 +190,6 @@ if (isset($_POST['logout'])) {
             </div>
         </div>
     </div>
-    <form class="logout-form" method="POST" action="">
-        <button type="submit" name="logout" value="Logout">Sign Out</button>
-    </form>
 
     <footer class="footer-section">
         <div class="container relative">
@@ -207,8 +205,7 @@ if (isset($_POST['logout'])) {
                     <ul class="list-unstyled custom-social">
                         <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
                         <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                                    <path
-                                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
                                 </svg></a></li>
                         <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
                     </ul>

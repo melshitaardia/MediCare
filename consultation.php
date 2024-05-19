@@ -2,26 +2,48 @@
 include 'database.php';
 
 session_start();
-$username = $_SESSION['username'];
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $str = $_POST['str'];
-    $username = $_POST['username'];
-    $biaya = $_POST['biaya'];
-    $tanggal = $_POST['tanggal'];
-    $waktu = $_POST['waktu'];
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] == 'insert') {
+            $str = $_POST['str'];
+            $username = $_POST['username'];
+            $biaya = $_POST['biaya'];
+            $tanggal = $_POST['tanggal'];
+            $waktu = $_POST['waktu'];
 
-    $conn = connectDB();
+            $conn = connectDB();
 
-    $sql = "INSERT INTO pemesanan (str, pasien, biaya, tanggal, waktu) VALUES ('$str', '$username', '$biaya', '$tanggal', '$waktu')";
-    if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Data berhasil disimpan.')</script>";
-        header("Location: home.php");
-        exit(); 
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            $sql = "INSERT INTO pemesanan (str, pasien, biaya, tanggal, waktu) VALUES ('$str', '$username', '$biaya', '$tanggal', '$waktu')";
+            if (mysqli_query($conn, $sql)) {
+                echo "<script>
+                        alert('Data berhasil disimpan.');
+                        setTimeout(function() {
+                            window.location.href = 'home.php';
+                        }, 2000);
+                      </script>";
+                exit();
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+        } elseif ($_POST['action'] == 'logout') {
+            session_unset();
+            session_destroy();
+            header("Location: login.php");
+            exit;
+        }
     }
-} 
+}
+
+if (isset($_POST['logout'])) {
+    session_unset();
+
+    session_destroy();
+
+    header("Location: login.php");
+    exit;
+}
 
 ?>
 
@@ -175,11 +197,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <li><a class="nav-link" href="faq.php">FAQ</a></li>
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <li>
-                                <form method="POST" action="logout.php">
-                                    <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
-                                </form>
-                            </li>
+                            <?php if ($username) : ?>
+                                <li>
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="action" value="logout">
+                                        <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
+                                    </form>
+                                </li>
+                            <?php else : ?>
+                                <li>
+                                    <a href="login.php" class="btn btnlogin">Login</a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -217,21 +246,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button class="btn btn-primary next-btn pl-3"><i class="fa fa-arrow-right"></i></button>
             </div>
         </div>
-        <div class="history-container mt-3">
-            <h2>History Data</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nama Dokter</th>
-                        <th>Spesialisasi</th>
-                        <th>Biaya</th>
-                        <th>Tanggal</th>
-                        <th>Waktu</th>
-                    </tr>
-                </thead>
-                <tbody class="history-data"></tbody>
-            </table>
-        </div>
+        <?php if ($username) : ?>
+            <div class="history-container table-responsive px-5 pb-2">
+                <h2>History Data</h2>
+                <table class="table align-items-center justify-content-center mb-0 table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nama Dokter</th>
+                            <th>Spesialisasi</th>
+                            <th>Biaya</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody class="history-data"></tbody>
+                </table>
+            </div>
+        <?php endif; ?>
 
         <div class="modal" id="consultationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -242,6 +273,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="modal-body">
                         <form method="post" action="">
+                            <input type="hidden" name="action" value="insert">
                             <div class="mb-3">
                                 <label for="str" class="form-label">STR:</label>
                                 <input type="text" class="form-control" id="str" name="str" readonly>
@@ -341,6 +373,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script>
+    var username = "<?php echo $username; ?>";
     document.addEventListener('DOMContentLoaded', () => {
         fetch('riwayat.php')
             .then(response => response.json())
@@ -424,6 +457,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     function generateCard(card) {
+        const bookNowButton = username ? `
+        <button class="btn btn-primary card-btn" data-toggle="modal" data-target="#consultationModal">Book Now</button>
+        ` : '';
         return `
             <div class="col">
                 <div class="card" data-card-data='${JSON.stringify(card)}'>
@@ -442,7 +478,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <br />
                         STR: ${card.str}
                         </p>
-                        <button class="btn btn-primary card-btn" data-toggle="modal" data-target="#consultationModal">Book Now</button>
+                        ${bookNowButton}
                     </div>
                 </div>
             </div>

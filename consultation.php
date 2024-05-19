@@ -1,33 +1,28 @@
 <?php
 include 'database.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $phone_number = $_POST['phone_number'];
-    $date = $_POST['date'];
-    $time = $_POST['time'];
+session_start();
+$username = $_SESSION['username'];
 
-    insertData($email, $phone_number, $date, $time);
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $str = $_POST['str'];
+    $username = $_POST['username'];
+    $biaya = $_POST['biaya'];
+    $tanggal = $_POST['tanggal'];
+    $waktu = $_POST['waktu'];
 
-function insertData($email, $phone_number, $date, $time)
-{
-    $mysqli = connectDB();
+    $conn = connectDB();
 
-    $stmt = $mysqli->prepare("INSERT INTO consultation (email, phone_number, date, time) VALUES (?, ?, ?, ?)");
-
-    $stmt->bind_param("ssss", $email, $phone_number, $date, $time);
-
-    if ($stmt->execute()) {
-        echo "Data inserted successfully.";
+    $sql = "INSERT INTO pemesanan (str, pasien, biaya, tanggal, waktu) VALUES ('$str', '$username', '$biaya', '$tanggal', '$waktu')";
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Data berhasil disimpan.')</script>";
+        header("Location: home.php");
+        exit(); 
     } else {
-        echo "Error: " . $mysqli->error;
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
+} 
 
-    $stmt->close();
-
-    $mysqli->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +38,8 @@ function insertData($email, $phone_number, $date, $time)
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        .btnlogin {
-            background: #E03F51;
+        .section {
+            padding-left: 0;
         }
 
         .card {
@@ -56,7 +51,7 @@ function insertData($email, $phone_number, $date, $time)
             transition: box-shadow 0.3s;
             position: relative;
             width: 250px;
-            height: 300px;
+            height: 370px;
         }
 
         .card:hover {
@@ -80,7 +75,6 @@ function insertData($email, $phone_number, $date, $time)
         }
 
         .card-body {
-            padding: 15px;
             text-align: center;
         }
 
@@ -91,6 +85,7 @@ function insertData($email, $phone_number, $date, $time)
 
         .card-text {
             color: #555;
+            text-align: justify;
             font-size: 0.9rem;
             margin-bottom: 15px;
         }
@@ -103,7 +98,6 @@ function insertData($email, $phone_number, $date, $time)
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
             border-color: #0056b3;
         }
 
@@ -135,7 +129,26 @@ function insertData($email, $phone_number, $date, $time)
         .card-navigation-btns {
             margin-top: 10px;
         }
+
+        .prev-btn,
+        .next-btn {
+            position: absolute;
+            top: 75%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
     </style>
+
 
 </head>
 
@@ -204,146 +217,236 @@ function insertData($email, $phone_number, $date, $time)
                 <button class="btn btn-primary next-btn pl-3"><i class="fa fa-arrow-right"></i></button>
             </div>
         </div>
+        <div class="history-container mt-3">
+            <h2>History Data</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nama Dokter</th>
+                        <th>Spesialisasi</th>
+                        <th>Biaya</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                    </tr>
+                </thead>
+                <tbody class="history-data"></tbody>
+            </table>
+        </div>
 
-        <h2>Post Form</h2>
-        <form method="post" action="">
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required><br>
-
-            <label for="phone_number">Phone Number:</label><br>
-            <input type="tel" id="phone_number" name="phone_number" required><br>
-
-            <label for="date">Date:</label><br>
-            <input type="date" id="date" name="date" required><br>
-
-            <label for="time">Time:</label><br>
-            <input type="time" id="time" name="time" required><br><br>
-
-            <input type="submit" value="Submit">
-        </form>
-
+        <div class="modal" id="consultationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Consultation Form</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="">
+                            <div class="mb-3">
+                                <label for="str" class="form-label">STR:</label>
+                                <input type="text" class="form-control" id="str" name="str" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="str" class="form-label">Pasien:</label>
+                                <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="biaya" class="form-label">Biaya:</label>
+                                <input type="text" class="form-control" id="biaya" name="biaya" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Tanggal:</label>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="waktu" class="form-label">Waktu:</label>
+                                <input type="time" class="form-control" id="waktu" name="waktu" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <footer class="footer-section">
-        <div class="container relative">
-            <div class="rows g-5 mb-5">
-                <div class="col-lg-4 col-md-3">
-                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">MediCare<span>.</span></a>
+            <div class="container relative">
+                <div class="rows g-5 mb-5">
+                    <div class="col-lg-4 col-md-3">
+                        <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">MediCare<span>.</span></a>
+                        </div>
+                        <p class="mb-4">byMediCare@gmail.com</p>
+                        <p class="mb-4">+628XXXXXXXXXXXX</p>
+                        <p class="mb-4">@MediCare</p>
+                        </p>
+
+                        <ul class="list-unstyled custom-social">
+                            <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                                        <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                                    </svg></a></li>
+                            <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                        </ul>
                     </div>
-                    <p class="mb-4">byMediCare@gmail.com</p>
-                    <p class="mb-4">+628XXXXXXXXXXXX</p>
-                    <p class="mb-4">@MediCare</p>
-                    </p>
 
-                    <ul class="list-unstyled custom-social">
-                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                        <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                                    <path
-                                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
-                                </svg></a></li>
-                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                    </ul>
-                </div>
+                    <div class="col-lg-8 col-md-9">
+                        <div class="row links-wrap d-flex justify-content-end">
 
-                <div class="col-lg-8 col-md-9">
-                    <div class="row links-wrap d-flex justify-content-end">
+                            <div class="col-6 col-sm-6 col-md-3">
+                                <ul class="list-unstyled">
+                                    <li><a href="consultation.php">Consultation</a></li>
+                                    <li><a href="articles.php">Articles</a></li>
+                                </ul>
+                            </div>
 
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="consultation.php">Consultation</a></li>
-                                <li><a href="articles.php">Articles</a></li>
-                            </ul>
-                        </div>
+                            <div class="col-6 col-sm-6 col-md-3">
+                                <ul class="list-unstyled">
+                                    <li><a href="aboutus.php">About Us</a></li>
+                                    <li><a href="faq.php">FAQ</a></li>
+                                </ul>
+                            </div>
 
-                        <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="aboutus.php">About Us</a></li>
-                                <li><a href="faq.php">FAQ</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- <div class="col-6 col-sm-6 col-md-3">
+                            <!-- <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
                                 <li><a href="aboutus.php">FAQ</a></li>
                             </ul>
                         </div> -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="border-top copyright">
+                    <div class="row pt-4">
+                        <div class="col-lg-6">
+                            <p class="mb-2 text-center text-lg-start">Bridging Hearts, Healing Minds
+                                &hearts;</a>
+
+                            </p>
+                        </div>
+
+                        <div class="col-lg-6 text-center text-lg-end">
+                            <ul class="list-unstyled d-inline-flex ms-auto">
+                                <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>
-
-
-            <div class="border-top copyright">
-                <div class="row pt-4">
-                    <div class="col-lg-6">
-                        <p class="mb-2 text-center text-lg-start">Bridging Hearts, Healing Minds
-                            &hearts;</a>
-
-                        </p>
-                    </div>
-
-                    <div class="col-lg-6 text-center text-lg-end">
-                        <ul class="list-unstyled d-inline-flex ms-auto">
-                            <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </footer>
+        </footer>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script>
-    
-    const cardsData = [{
-            image: 'https://via.placeholder.com/300',
-            title: 'Card 1',
-            description: 'Description for card 1'
-        },
-        {
-            image: 'https://via.placeholder.com/300',
-            title: 'Card 2',
-            description: 'Description for card 2'
-        },
-        {
-            image: 'https://via.placeholder.com/300',
-            title: 'Card 3',
-            description: 'Description for card 3'
-        },
-        {
-            image: 'https://via.placeholder.com/300',
-            title: 'Card 4',
-            description: 'Description for card 4'
-        },
-        {
-            image: 'https://via.placeholder.com/300',
-            title: 'Card 5',
-            description: 'Description for card 5'
-        },
-        {
-            image: 'https://via.placeholder.com/300',
-            title: 'Card 6',
-            description: 'Description for card 6'
-        }
-    ];
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('riwayat.php')
+            .then(response => response.json())
+            .then(historyData => {
+                renderHistoryData(historyData);
+            })
+            .catch(error => console.error('Error fetching history data:', error));
+        fetch('doctor.php')
+            .then(response => response.json())
+            .then(data => {
+                renderCards(data.slice(0, 4));
+
+                const prevBtn = document.querySelector('.prev-btn');
+                const nextBtn = document.querySelector('.next-btn');
+                let currentPage = 0;
+
+                prevBtn.addEventListener('click', () => {
+                    if (currentPage > 0) {
+                        currentPage--;
+                        renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
+                    }
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    if ((currentPage + 1) * 4 < data.length) {
+                        currentPage++;
+                        renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('card-btn')) {
+                const targetCard = event.target.closest('.card');
+                if (targetCard) {
+                    const cardData = JSON.parse(targetCard.dataset.cardData);
+                    const str = cardData.str;
+                    const biaya = cardData.harga;
+                    const tanggal = document.getElementById('tanggal').value;
+                    const waktu = document.getElementById('waktu').value;
+
+                    document.getElementById('str').value = str;
+                    document.getElementById('biaya').value = biaya;
+                    document.getElementById('tanggal').value = tanggal;
+                    document.getElementById('waktu').value = waktu;
+
+                    // Set username from session
+                    const username = "<?php echo $username; ?>";
+                    document.getElementById('username').value = username;
+
+                    const myModal = new bootstrap.Modal(document.getElementById('consultationModal'), {
+                        backdrop: 'static'
+                    });
+                    console.log(myModal);
+                    myModal.show();
+                }
+            }
+        });
+    });
+
+    function renderHistoryData(historyData) {
+        const historyContainer = document.querySelector('.history-container .history-data');
+        historyContainer.innerHTML = '';
+
+        historyData.forEach(data => {
+            const historyHtml = generateHistoryEntry(data);
+            historyContainer.innerHTML += historyHtml;
+        });
+    }
+
+    function generateHistoryEntry(data) {
+        return `
+        <tr>
+            <td>Dr. ${data.nama}</td>
+            <td>${data.spesialis}</td>
+            <td>Rp. ${data.biaya}</td>
+            <td>${data.tanggal}</td>
+            <td>${data.waktu}</td>
+        </tr>
+    `;
+    }
 
     function generateCard(card) {
         return `
-                <div class="col">
-                    <div class="card">
-                        <div class="card-img-container"> <!-- Container for the image -->
-                            <img src="${card.image}" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">${card.title}</h5>
-                            <p class="card-text">${card.description}</p>
-                            <button class="btn btn-primary">Button</button>
-                        </div>
+            <div class="col">
+                <div class="card" data-card-data='${JSON.stringify(card)}'>
+                    <div class="card-img-container">
+                        <img src="${card.img}" class="card-img-top" alt="${card.nama}">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">${card.nama}</h5>
+                        <p class="card-text">Price: Rp.${card.harga}
+                        <br />
+                        Spesialis: ${card.spesialis}
+                        <br />
+                        Alumni: ${card.alumni}
+                        <br />
+                        Practice: ${card.praktik}
+                        <br />
+                        STR: ${card.str}
+                        </p>
+                        <button class="btn btn-primary card-btn" data-toggle="modal" data-target="#consultationModal">Book Now</button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
     }
 
     function renderCards(cards) {
@@ -354,26 +457,6 @@ function insertData($email, $phone_number, $date, $time)
             cardsContainer.innerHTML += cardHtml;
         });
     }
-
-    renderCards(cardsData.slice(0, 4));
-
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    let currentPage = 0;
-
-    prevBtn.addEventListener('click', () => {
-        if (currentPage > 0) {
-            currentPage--;
-            renderCards(cardsData.slice(currentPage * 4, (currentPage + 1) * 4));
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if ((currentPage + 1) * 4 < cardsData.length) {
-            currentPage++;
-            renderCards(cardsData.slice(currentPage * 4, (currentPage + 1) * 4));
-        }
-    });
 </script>
 
 </html>

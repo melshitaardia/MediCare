@@ -83,11 +83,10 @@ include 'database.php';
     </div>
 
     <div class="section">
-        <div class="inner-container container">
             <div class="row justify-content-evenly">
                 <h2 class="section-title text-center pt-3 pb-5">Meet Our Team</h2>
 
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                     <div class="our-team">
                         <div class="picture">
                             <img class="img-fluid" src="images/aboutus/fianka.jpg">
@@ -103,23 +102,7 @@ include 'database.php';
                         </ul>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                    <div class="our-team">
-                        <div class="picture">
-                            <img class="img-fluid" src="images/aboutus/raisha.JPG">
-                        </div>
-                        <div class="team-content">
-                            <h5 class="name">Raisha Isma A</h5>
-                        </div>
-                        <ul class="social">
-                            <li><a href="https://instagram.com/raishaiaa/" class="fa fa-instagram"
-                                    aria-hidden="true"></a></li>
-                            <li><a href="https://www.linkedin.com/in/raisha-isma-aulia-78212628b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="fa fa-linkedin"
-                                    aria-hidden="true"></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                     <div class="our-team">
                         <div class="picture">
                             <img class="img-fluid" src="images/aboutus/melshi.jpeg">
@@ -136,25 +119,24 @@ include 'database.php';
                         </ul>
                     </div>
                 </div>
-                
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                     <div class="our-team">
                         <div class="picture">
-                            <img class="img-fluid" src="images/aboutus/syed.jpg">
+                            <img class="img-fluid" src="images/aboutus/raisha.JPG">
                         </div>
                         <div class="team-content">
-                            <h5 class="name">Syed Shaquille H</h5>
+                            <h5 class="name">Raisha Isma A</h5>
                         </div>
                         <ul class="social">
-                            <li><a href="https://www.instagram.com/syedsh_/" class="fa fa-instagram"
+                            <li><a href="https://instagram.com/raishaiaa/" class="fa fa-instagram"
                                     aria-hidden="true"></a></li>
-                            <li><a href="https://www.linkedin.com/in/syedshaquille/" class="fa fa-linkedin"
+                            <li><a href="https://www.linkedin.com/in/raisha-isma-aulia-78212628b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="fa fa-linkedin"
                                     aria-hidden="true"></a></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                <!-- <div class="col-12 col-sm-6 col-md-4 col-lg-2">
                     <div class="our-team">
                         <div class="picture">
                             <img class="img-fluid" src="images/aboutus/ady.jpg">
@@ -169,8 +151,8 @@ include 'database.php';
                                     aria-hidden="true"></a></li>
                         </ul>
                     </div>
-                </div>
-            </div>
+                </div> -->
+            
         </div>
     </div>
 

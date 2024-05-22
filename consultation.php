@@ -253,7 +253,7 @@ if (isset($_POST['logout'])) {
                     <thead>
                         <tr>
                             <th>Nama Dokter</th>
-                            <th>Spesialisasi</th>
+                            <th>Dokter </th>
                             <th>Biaya</th>
                             <th>Tanggal</th>
                             <th>Waktu</th>
@@ -468,9 +468,10 @@ if (isset($_POST['logout'])) {
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">${card.nama}</h5>
-                        <p class="card-text">Price: Rp.${card.harga}
+                        <p class="card-text">
+                        Dokter ${card.spesialis}
                         <br />
-                        Spesialis: ${card.spesialis}
+                        Price: Rp.${card.harga}
                         <br />
                         Alumni: ${card.alumni}
                         <br />

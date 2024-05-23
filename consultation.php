@@ -15,18 +15,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $conn = connectDB();
 
-            $sql = "INSERT INTO pemesanan (str, pasien, biaya, tanggal, waktu) VALUES ('$str', '$username', '$biaya', '$tanggal', '$waktu')";
-            if (mysqli_query($conn, $sql)) {
-                echo "<script>
-                        alert('Data berhasil disimpan.');
+            $stmt = $conn->prepare("INSERT INTO pemesanan (str, pasien, biaya, tanggal, waktu) VALUES (?, ?, ?, ?, ?)");
+            if ($stmt) {
+                $stmt->bind_param("sssss", $str, $username, $biaya, $tanggal, $waktu);
+                if ($stmt->execute()) {
+                    $insertedId = $conn->insert_id;
+                    echo "<script> var insertedId = $insertedId;</script>";
+                    echo "<script> var dana = '$biaya';</script>";
+                    echo "<script>
+                            var serviceCharge = '3.500';
+                            var totalPayment = (parseInt(dana.replace(/\./g, '')) + parseInt(serviceCharge.replace('.', ''))).toLocaleString('id-ID');
+                          </script>";
+                    echo "<script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                document.getElementById('insertedId').textContent = insertedId;
+                                document.getElementById('balanceAmount').textContent = 'Rp. ' + dana;
+                                document.getElementById('totalPayment').textContent = 'Rp. ' + totalPayment;
+                                var myModal = new bootstrap.Modal(document.getElementById('paymentModal'), {
+                                    backdrop: 'static'
+                                });
+                                myModal.show();
+                            });
+                          </script>";
+                } else {
+                    echo "Error: " . $stmt->error;
+                }
+                $stmt->close();
+            } else {
+                echo "Error: " . $conn->error;
+            }
+
+            $conn->close();
+        } elseif ($_POST['action'] == 'payment') {
+            $totalPayment = $_POST['totalPayment'];
+            $id_pemesanan = $_POST['id_pemesanan'];
+            $username = $_POST['username'];
+            $metode_bayar = $_POST['metode_bayar'];
+
+            $conn = connectDB();
+
+            $stmt = $conn->prepare("INSERT INTO pembayaran (total, id_pemesanan, username, metode_bayar) VALUES (?, ?, ?, ?)");
+            if ($stmt) {
+                $stmt->bind_param("ssss", $totalPayment, $id_pemesanan, $username, $metode_bayar);
+                if ($stmt->execute()) {
+                    echo "<script>
+                        alert('Pembayaran sukses.');
                         setTimeout(function() {
                             window.location.href = 'home.php';
-                        }, 2000);
+                        }, 500);
                       </script>";
-                exit();
+                } else {
+                    echo "Error: " . $stmt->error;
+                }
+                $stmt->close();
             } else {
-                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                echo "Error: " . $conn->error;
             }
+
+            $conn->close();
         } elseif ($_POST['action'] == 'logout') {
             session_unset();
             session_destroy();
@@ -73,7 +119,7 @@ if (isset($_POST['logout'])) {
             transition: box-shadow 0.3s;
             position: relative;
             width: 250px;
-            height: 370px;
+            height: 400px;
         }
 
         .card:hover {
@@ -257,6 +303,7 @@ if (isset($_POST['logout'])) {
                             <th>Biaya</th>
                             <th>Tanggal</th>
                             <th>Waktu</th>
+                            <th>Metode Bayar</th>
                         </tr>
                     </thead>
                     <tbody class="history-data"></tbody>
@@ -294,8 +341,85 @@ if (isset($_POST['logout'])) {
                                 <label for="waktu" class="form-label">Waktu:</label>
                                 <input type="time" class="form-control" id="waktu" name="waktu" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" onclick="confirmPayment()">Submit</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="paymentModal" tabindex="-1" aria-labelledby="paymentLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg rounded-lg modal-dialog-centered">
+                <div class="modal-content p-4">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h3>Payment Method ID: <p id="insertedId"></p>
+                            </h3>
+                            <div class="col-md-12">
+                                <input type="radio" class="btn-check" name="options" value="MasterCard" id="mastercard" autocomplete="off">
+                                <label class="btn btn-outline-secondary m-1" for="mastercard"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1280px-MasterCard_Logo.svg.png" width="15px" height="10px"></label>
+                                <input type="radio" class="btn-check" name="options" value="Visa" id="visa" autocomplete="off">
+                                <label class="btn btn-outline-secondary m-1" for="visa"><img class="object-fill" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Visa_Logo.png/640px-Visa_Logo.png" width="15px" height="10px"></label>
+                                <input type="radio" class="btn-check" name="options" value="JCB" id="jcb" autocomplete="off">
+                                <label class="btn btn-outline-secondary m-1" for="jcb"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/1280px-JCB_logo.svg.png" width="15px" height="10px"></label>
+                                <input type="radio" class="btn-check" name="options" value="Dana" id="dana" autocomplete="off">
+                                <label class="btn btn-outline-secondary m-1" for="dana"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/2560px-Logo_dana_blue.svg.png" width="15px" height="10px"></label>
+                                <input type="radio" class="btn-check" name="options" value="Gopay" id="gopay" autocomplete="off">
+                                <label class="btn btn-outline-secondary m-1" for="gopay"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/2560px-Gopay_logo.svg.png" width="15px" height="10px"></label>
+                                <input type="radio" class="btn-check" name="options" value="OVO" id="ovo" autocomplete="off">
+                                <label class="btn btn-outline-secondary m-1" for="ovo"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/2560px-Logo_ovo_purple.svg.png" width="15px" height="10px"></label>
+                            </div>
+                            <div class="pt-4" id="card-details" style="display: none;">
+                                <div class="form-group col-md-12">
+                                    <label for="biaya" class="form-label">Cardholder Name:</label>
+                                    <input type="text" id="cardholderName" class="form-control w-full" placeholder="Cardholder Name"><br>
+                                </div>
+                                <div class="form-group col-md-12 flex row justify-content-center">
+                                    <div class="form-group col-md-5">
+                                        <label for="card" class="form-label">Card Number:</label>
+                                        <input type="text" id="cardNumber" class="form-control" placeholder="Card Number"><br>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="date" class="form-label">Date:</label>
+                                        <input type="date" id="expiryDate" class="form-control" placeholder="Expiry Date"><br>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="ccv" class="form-label">CCV:</label>
+                                        <input type="text" id="cvv" class="form-control" placeholder="CVV"><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group pt-4 col-md-12" id="phone-details" style="display: none;">
+                                <label for="phone" class="form-label">Phone Number:</label>
+                                <input type="text" id="phoneNumber" class="form-control w-full" placeholder="Phone Number">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <h3>Order Summary</h3>
+                            <div class="order-summary">
+                                <div class="d-flex justify-content-between">
+                                    <p>Balance Amount : </p>
+                                    <p id="balanceAmount"></p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <p>Service Charge :</p>
+                                    <p>Rp. 3.500</p>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <p>Total Payment :</p>
+                                    <p id="totalPayment"></p>
+                                </div>
+                            </div>
+                            <form method="post" class="row" action="" onsubmit="return validatePaymentForm();">
+                                <input type="hidden" name="action" value="payment">
+                                <input type="hidden" class="form-control" id="id_pemesanan" name="id_pemesanan">
+                                <input type="hidden" class="form-control" name="metode_bayar" id="metode_bayar">
+                                <input type="hidden" class="form-control" name="username" id="username" value="<?php echo $username; ?>">
+                                <input type="hidden" class="form-control" name="totalPayment" id="totalPayment">
+                                <button class="btn btn-success w-full" type="submit">Confirm Payment</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -375,6 +499,23 @@ if (isset($_POST['logout'])) {
 <script>
     var username = "<?php echo $username; ?>";
     document.addEventListener('DOMContentLoaded', () => {
+        const paymentMethodButtons = document.querySelectorAll('input[name="options"]');
+        const cardDetails = document.getElementById('card-details');
+        const phoneDetails = document.getElementById('phone-details');
+        paymentMethodButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('metode_bayar').value = button.value;
+                if (button.value === 'MasterCard' || button.value === 'Visa' || button.value === 'JCB') {
+                    cardDetails.style.display = 'block';
+                    phoneDetails.style.display = 'none';
+                } else {
+                    cardDetails.style.display = 'none';
+                    phoneDetails.style.display = 'block';
+                }
+            });
+        });
+        document.querySelector('input[name="totalPayment"]').value = totalPayment;
+        document.querySelector('input[name="id_pemesanan"]').value = insertedId;
         fetch('riwayat.php')
             .then(response => response.json())
             .then(historyData => {
@@ -420,7 +561,6 @@ if (isset($_POST['logout'])) {
                     document.getElementById('tanggal').value = tanggal;
                     document.getElementById('waktu').value = waktu;
 
-                    // Set username from session
                     const username = "<?php echo $username; ?>";
                     document.getElementById('username').value = username;
 
@@ -433,6 +573,15 @@ if (isset($_POST['logout'])) {
             }
         });
     });
+
+    function validatePaymentForm() {
+    var selectedPaymentMethod = document.querySelector('input[name="options"]:checked');
+    if (!selectedPaymentMethod) {
+        alert("Pilih metode bayar");
+        return false;
+    }
+    return true;
+}
 
     function renderHistoryData(historyData) {
         const historyContainer = document.querySelector('.history-container .history-data');
@@ -449,9 +598,10 @@ if (isset($_POST['logout'])) {
         <tr>
             <td>Dr. ${data.nama}</td>
             <td>${data.spesialis}</td>
-            <td>Rp. ${data.biaya}</td>
+            <td>Rp. ${data.total}</td>
             <td>${data.tanggal}</td>
             <td>${data.waktu}</td>
+            <td>${data.metode_bayar}</td>
         </tr>
     `;
     }

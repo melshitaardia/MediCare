@@ -8,9 +8,10 @@ function fetchHistoryData() {
     
     $username = $_SESSION['username'];
     
-    $query = "SELECT p.biaya, p.tanggal, p.waktu, d.nama, d.spesialis
+    $query = "SELECT p.tanggal, p.waktu, d.nama, d.spesialis, pb.total, pb.metode_bayar
               FROM pemesanan p
               INNER JOIN list_dokter d ON p.str = d.str
+              INNER JOIN pembayaran pb ON p.id = pb.id_pemesanan
               WHERE p.pasien = '$username'";
               
     $result = $mysqli->query($query);

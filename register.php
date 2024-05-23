@@ -1,19 +1,20 @@
 <?php
-include 'database.php'; 
+session_start(); // Start the session
+include 'database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if(empty($username) || empty($password)) {
-        echo "<script>alert('Both username and password are required.')</script>";
+    if (empty($username) || empty($password)) {
+        $_SESSION['error'] = "Both username and password are required.";
     } else {
         $mysqli = connectDB();
         $sql = "SELECT * FROM akun WHERE username='$username'";
         $result = $mysqli->query($sql);
 
         if ($result->num_rows > 0) {
-            echo "<script>alert('Username already exists.')</script>";
+            $_SESSION['error'] = "Username already exists.";
         } else {
             $sql = "INSERT INTO akun (username, password) VALUES ('$username', '$password')";
             if ($mysqli->query($sql) === TRUE) {
@@ -21,12 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 window.location.href = 'login.php';</script>";
                 exit;
             } else {
-                echo "Error: " . $sql . "<br>" . $mysqli->error;
+                $_SESSION['error'] = "Error: " . $sql . "<br>" . $mysqli->error;
             }
         }
 
         $mysqli->close();
     }
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 ?>
 
@@ -58,6 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="input-group">
                     <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
                 </div>
+
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-warning" role="alert">
+                        <?php 
+                        echo $_SESSION['error']; 
+                        unset($_SESSION['error']); // Clear the error message
+                        ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="input-group">
                     <button type="submit">Register <i class="fa fa-arrow-right"></i></button>

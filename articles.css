@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+
+.text-heading {
+    font-family: "League Spartan", sans-serif;
+    color: #484BA1;
+}
+
+/* Cards */
+.posts-box {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 40px 10px;
+    text-align: center;
+    list-style: none;
+}
+
+.posts-box li {
+    display: inline-block;
+    width: 320px;
+    max-width: 100%;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.card {
+    text-align: left;
+    border-radius: 2px;
+    background: #FFFFFF;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.10),
+        0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.card img {
+    display: block;
+    width: 100%;
+    height: auto; /* Ensures the image maintains its aspect ratio */
+}
+
+.card div {
+    padding: 16px 20px;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.card div h3 {
+    margin: 8px 0;
+    font-size: .9em;
+}
+
+.card div p {
+    margin: 8px 0;
+    font-size: .9em;
+}
+
+/* Modal */
+.modal {
+    overflow-y: auto; /* Enable vertical scrollbar */
+}
+
+.modal-dialog {
+    max-width: 90%; /* Adjust the modal width as needed */
+}
+
+.modal-body {
+    max-height: 600px; /* Adjust the modal body height as needed */
+    overflow-y: auto;
+}

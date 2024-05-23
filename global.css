@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
 
 body {
   font-family: 'Lato', sans-serif;
@@ -170,7 +171,7 @@ a.nav-link {
   padding: 10px 20px;
   border-radius: 30px;
   color: #fff;
-  background-color: #484BA1;
+  background-color: #E03F51;
 
 }
 

@@ -277,7 +277,7 @@ if (isset($_POST['logout'])) {
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="img-wrap">
-                            <img src="images/home/doctors.PNG" class="img-fluid" width="400px" style="margin-right: 80px; 
+                            <img src="images/consultation.png" class="img-fluid" width="400px" style="margin-right: 80px; 
                             margin-top: -30px; margin-left: -70px" alt="Responsive Image">
                         </div>
                     </div>

@@ -53,7 +53,7 @@ if (isset($_POST['logout'])) {
                             <?php if ($username) : ?>
                                 <li>
                                     <form method="POST" action="">
-                                        <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
+                                        <button type="submit" name="logout" class="btn btn-login">Sign Out</button>
                                     </form>
                                 </li>
                             <?php else : ?>
@@ -79,15 +79,15 @@ if (isset($_POST['logout'])) {
                             <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
                                 iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
                                 Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
-                            <p><a href="#discoverus" class="btn btn-secondary me-2">Get Started</a>
-                                <a href="explore.php" class="btn btn-white-outline">Explore</a>
+                            <p><a href="#discoverus" class="btn btn-home">Get Started</a>
+                                <a href="explore.php" class="btn btn-home">Explore</a>
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="img-wrap">
-                            <img src="images/home/doctors.PNG" class="img-fluid" width="400px" style="margin-right: 80px; 
-                            margin-top: -30px; margin-left: -70px" alt="Responsive Image">
+                            <img src="images/home/home1.png" class="img-fluid"  
+                            style="margin-right: 80px; margin-top: -30px; margin-left: -70px" alt="Responsive Image">
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@ if (isset($_POST['logout'])) {
         </div>
     </div>
 
-    <div class="section2-section" id="discoverus">
+    <!-- <div class="section2-section" id="discoverus">
         <div class="inner-container container">
             <div class="row flex-wrap-reverse justify-content-between align-items-center">
                 <div class="col-lg-6 inner">
@@ -172,12 +172,35 @@ if (isset($_POST['logout'])) {
                 </div>
             </div>
         </div>
+    </div> -->
+
+    <div class="section3-section">
+        <div class="inner-container container">
+            <div class="row flex-wrap-reverse justify-content-between align-items-center">
+                <div class="col-md-4 p-5 inner position-relative">
+                    <img src="images/home/faqs.png" class="img-fluid" width="350px" alt="Left Image">
+                    <div class="section-title1 pt-2 pb-1">Q : Lorem ipsum dolor sit amet, consectetur?<br><br>
+                        <div class="section-title2 pb-2">A: adipiscing elit.
+                        </div>
+                    </div>
+                    <p>
+                    <div class="button-container pt-1">
+                        <a href="faq.php" class="btn btn-read-more">Read More</a>
+                    </div>
+                    </p>
+                </div>
+                <div class="col-md-7">
+                    <div class="image-container position-relative">
+                        <img src="images/home/chatting.png" class="img-fluid" width="800px" alt="Right Image">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="radial-grad testimonial-section">
         <div class="container">
             <div class="row">
-
             </div>
             <div class="testimonial-block text-center">
                 <blockquote class="mb-5">

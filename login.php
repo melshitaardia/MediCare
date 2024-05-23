@@ -24,17 +24,19 @@ if(isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if(login($username, $password)) {
+    if(empty($username) || empty($password)) {
+        $_SESSION['error'] = "Both username and password are required.";
+    } else if(login($username, $password)) {
         $_SESSION['username'] = $username;
         header("Location: home.php");
         exit;
     } else {
-        echo "<script>alert('Invalid username or password.')</script>";
+        $_SESSION['error'] = "Invalid username or password.";
     }
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,6 +64,16 @@ if(isset($_POST['login'])) {
                 <div class="input-group">
                     <input type="password" id="password" name="password" class="input-field" placeholder="Password">
                 </div>
+
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-warning" role="alert">
+                        <?php 
+                        echo $_SESSION['error']; 
+                        unset($_SESSION['error']); 
+                        ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="input-group">
                     <button type="submit" name="login" value="Login">Login <i class="fa fa-arrow-right"></i></button>
                 </div>

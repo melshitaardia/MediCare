@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+
 .btnlogin {
     background: #E03F51;
 }
@@ -36,7 +38,7 @@ blockquote {
     position: relative;
     right: 0px;
     top: -50px;
-    width: 400px;
+    width: 800px;
     height: auto;
     /*width: 200% udah max */
 }
@@ -47,6 +49,33 @@ blockquote {
     height: auto;
     display: block;
     margin: 0 auto;
+}
+
+
+
+.img-wrap img {
+    width: 100%; /* Full width of the container by default */
+    max-width: 500px; /* Maximum width for larger screens */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto;
+    margin-right: 80px; margin-top: -100px; margin-left: -100px;
+}
+
+@media (max-width: 768px) {
+    .img-wrap img {
+        max-width: 300px; /* Adjust the maximum width for smaller screens */
+        margin-right: 0; /* Adjust margins as needed */
+        margin-left: 0; /* Adjust margins as needed */
+    }
+}
+
+@media (max-width: 576px) {
+    .img-wrap img {
+        max-width: 100%; /* Full width of the container for very small screens */
+        margin-right: 0; /* Adjust margins as needed */
+        margin-left: 0; /* Adjust margins as needed */
+    }
 }
 
 @media (max-width: 768px) {
@@ -131,8 +160,8 @@ blockquote {
     }
 }
 
-
 .inner-container {
+    color: #fff;
     position: relative;
     padding: 7rem 0;
     padding-left: 40px;
@@ -143,8 +172,8 @@ blockquote {
 }
 
 .inner {
-    background: rgba(139, 69, 19, 0.13);
-    color: #F6CFD3;
+    color: rgba(72, 75, 161, 1) !important;
+    background: #484BA1 !important;
     padding-top: 40px;
     border-radius: 20px;
     padding-left: 40px;
@@ -160,4 +189,113 @@ blockquote {
         margin-left: 20px;
         margin-right: 50px;
     }
+}
+
+.image-grid {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image-left,
+.image-right {
+    flex: 1;
+    margin: 10px;
+}
+
+.image-left img,
+.image-right img {
+    width: 100%;
+    height: auto;
+}
+
+.section .row .col-md-4,
+.section .row .col-md-6 {
+    padding-right: 10px;
+}
+
+.section .row .col-md-4 img,
+.section .row .col-md-6 img {
+    display: block;
+    margin: 0 auto;
+}
+
+.section .container {
+    padding-left: 15x;
+    padding-right: 15px;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.btn-home {
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: #fff;
+  background-color: #484BA1;
+
+}
+
+.button-container {
+    text-align: center;
+}
+
+.btn-read-more {
+    padding: 7px 60px;
+    border-radius: 30px;
+    color: #E03F51;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    border: 4px solid #F6CFD3; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.btn-read-more:hover {
+    background-color: #FFFFFF; 
+    color: #E03F51; 
+    border-color: transparent; 
+}
+
+.section3-section {
+    padding: 7rem 0;
+}
+
+
+.section3-section .img-wrap {
+    position: relative;
+}
+
+.section3-section .img-wrap:before {
+    position: absolute;
+    content: "";
+    width: 255px;
+    height: 217px;
+    /* background-image: url("../images/yellow.svg"); */
+    background-repeat: no-repeat;
+    background-size: contain;
+    -webkit-transform: translate(-40%, -40%);
+    -ms-transform: translate(-40%, -40%);
+    transform: translate(-40%, -40%);
+    z-index: -1;
+}
+
+.section3-section .img-wrap img {
+    border-radius: 20px;
+}
+
+.section-title1 {
+    font-family: "League Spartan", sans-serif;
+    font-size: 24px; 
+    color: #FFFFFF; 
+}
+
+.section-title2 {
+    font-family: "League Spartan", sans-serif;
+    font-size: 24px; 
+    color: #F59C9E; 
 }

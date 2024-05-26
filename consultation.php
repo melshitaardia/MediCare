@@ -226,45 +226,10 @@ if (isset($_POST['logout'])) {
 
 <body>
     <div class="linear-grad">
-        <div class="p-3 navbarbar">
-            <nav class="custom-navbar navbar navbar navbar-expand-lg navbar-dark bg-dark" arial-label="Warmtalks navigation bar">
-                <div class="container">
-                    <img src="images\logo1.png" class="logo">
-                    <a class="navbar-brand" href="home.php">MediCare<span>.</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsWarmtalks" aria-controls="navbarsWarmtalks" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars" style="color: #8b4513;"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarsWarmtalks">
-                        <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="consultation.php">Consultation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="articles.php">Articles</a>
-                            </li>
-                            <li><a class="nav-link" href="aboutus.php">About Us</a></li>
-                            <li><a class="nav-link" href="faq.php">FAQ</a></li>
-                        </ul>
-                        <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <?php if ($username) : ?>
-                                <li>
-                                    <form method="POST" action="">
-                                        <input type="hidden" name="action" value="logout">
-                                        <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
-                                    </form>
-                                </li>
-                            <?php else : ?>
-                                <li>
-                                    <a href="login.php" class="btn btnlogin">Sign In</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
+        <?php
+        include 'navbar.php';
+        ob_end_flush();
+        ?>
         <div class="section">
             <div class="container" style="margin-right:40px; margin-bottom: 60px;">
                 <div class="row justify-content-between">

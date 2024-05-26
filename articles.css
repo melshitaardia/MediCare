@@ -58,7 +58,7 @@ body {
 }
 
 .read-more-button {
-    background-color: #ff4081;
+    background-color: #673ab7;
     color: #fff;
     border: none;
     padding: 5px 10px;
@@ -67,7 +67,7 @@ body {
 }
 
 .read-more-button:hover {
-    background-color: #e5397f;
+    background-color: #F6CFD3;
 }
 
 .btn-close {

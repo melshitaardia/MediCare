@@ -1,13 +1,14 @@
 <?php
-session_start(); // Start the session
+session_start(); 
 include 'database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fullname = $_POST['fullname'];
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if (empty($username) || empty($password)) {
-        $_SESSION['error'] = "Both username and password are required.";
+    if (empty($fullname) || empty($email) || empty($password)) {
+        $_SESSION['error'] = "All fields are required.";
     } else {
         $mysqli = connectDB();
         $sql = "SELECT * FROM akun WHERE username='$username'";
@@ -16,9 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $_SESSION['error'] = "Username already exists.";
         } else {
-            $sql = "INSERT INTO akun (username, password) VALUES ('$username', '$password')";
+            $sql = "INSERT INTO akun (fullname, username, password) VALUES ('$fullname', '$username', '$password')";
             if ($mysqli->query($sql) === TRUE) {
-                echo "<script>alert('Selamat! Akun anda telah terdaftarkan.'); 
+                echo "<script>alert('Congratulations! Your account has been created.'); 
                 window.location.href = 'login.php';</script>";
                 exit;
             } else {
@@ -38,48 +39,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>MediCare Sign Up</title>
     <link rel="stylesheet" href="login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <div class="linear-grad">
-        <div class="wrapper">
-            <a class="back" href="login.php"><i class="fa fa-arrow-left"></i> Back</a>
-            <div class="heading">
-                <h2>Register</h2>
-                <p>Create your account</p>
+    <div class="container">
+        <div class="info-panel">
+            <div class="brand">
+                <img src="images/logoo.png" class="logo-image">
             </div>
-
+            <h1>Your Wellness <br>Journey <br>Starts Here,<br>Expertise You <br>Can Trust!</h1>
+        </div>
+        <div class="form-panel">
             <form id="registerForm" method="POST" action="">
-                <div class="input-group">
-                    <input type="text" id="username" name="username" class="input-field" placeholder="Username" required>
+                <h2>Create Account</h2>
+                <div class="input-container" style="margin-top: 15px;">
+                    <input type="text" id="fullname" name="fullname" placeholder="Full Name" required>
                 </div>
-
-                <div class="input-group">
-                    <input type="password" id="password" name="password" class="input-field" placeholder="Password" required>
+                <div class="input-container">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
                 </div>
-
+                <div class="input-container">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
                 <?php if (isset($_SESSION['error'])): ?>
-                    <div class="alert alert-warning" role="alert">
+                    <div class="alert" role="alert">
                         <?php 
                         echo $_SESSION['error']; 
-                        unset($_SESSION['error']); // Clear the error message
+                        unset($_SESSION['error']); 
                         ?>
                     </div>
                 <?php endif; ?>
-
-                <div class="input-group">
-                    <button type="submit">Register <i class="fa fa-arrow-right"></i></button>
-                </div>
+                <button type="submit">Sign Up</button>
+                <p>Already have an account? <a href="login.php">Log In</a></p>
             </form>
-
-            <h5 class="pt-3 text-lg-end" style="font-size: smaller;">Have an account? <a href="login.php"
-                    style="font-size: smaller;">Log In</a></h5>
+            <img src="images/element.png" class="element-image">
         </div>
     </div>
-
 </body>
 </html>

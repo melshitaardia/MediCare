@@ -3,9 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
 
 body {
-  font-family: 'Lato', sans-serif;
-  /* font-family: 'Narin Black';
-    src: url('/project02/fonts/Narin-Black.woff') format('woff'); */
+  font-family: "League Spartan", sans-serif;
   font-weight: 400;
   line-height: 28px;
   font-size: 16px;
@@ -17,7 +15,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: "League Spartan", sans-serif;
   font-weight: 800;
   color: #000;
 }
@@ -28,8 +26,6 @@ i {
 
 a {
   text-decoration: none;
-  -webkit-transition: 0.3s all ease;
-  -o-transition: 0.3s all ease;
   transition: 0.3s all ease;
   color: #2f2f2f;
   text-decoration: underline;
@@ -46,6 +42,8 @@ a.more {
 
 a.nav-link {
   color: #50b389;
+  margin-right: 15px;
+  /* Menambahkan margin kanan untuk jarak antar halaman */
 }
 
 .navbarbar {
@@ -65,15 +63,14 @@ a.nav-link {
   padding-bottom: 20px;
   border-radius: 50px;
   margin-bottom: -30px;
-  /* position: fixed; */
   text-align: center;
   width: 100%;
-
 }
 
 .custom-navbar .navbar-brand {
-  font-size: 32px;
-  font-family: 'Playfair Display', serif;
+  margin-top: 10px;
+  font-size: 38px;
+  font-family: 'League Spartan', serif;
   color: #484BA1;
   font-weight: 600;
 }
@@ -88,7 +85,6 @@ a.nav-link {
 
 .custom-navbar .navbar-toggler:active,
 .custom-navbar .navbar-toggler:focus {
-  -webkit-box-shadow: none;
   box-shadow: none;
   outline: none;
 }
@@ -103,9 +99,6 @@ a.nav-link {
 .custom-navbar .custom-navbar-nav li a {
   font-weight: 500;
   color: #27191A !important;
-  /* opacity: 0.6; */
-  -webkit-transition: 0.3s all ease;
-  -o-transition: 0.3s all ease;
   transition: 0.3s all ease;
   position: relative;
 }
@@ -122,8 +115,6 @@ a.nav-link {
     opacity: 1;
     visibility: visible;
     width: 0;
-    -webkit-transition: 0.15s all ease-out;
-    -o-transition: 0.15s all ease-out;
     transition: 0.15s all ease-out;
   }
 }
@@ -146,9 +137,6 @@ a.nav-link {
 
 .custom-navbar .custom-navbar-cta {
   margin-left: 0 !important;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
   flex-direction: row;
 }
 
@@ -168,11 +156,12 @@ a.nav-link {
 }
 
 .btn {
-  padding: 10px 20px;
-  border-radius: 30px;
   color: #fff;
   background-color: #E03F51;
-
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
 }
 
 .btn:hover {
@@ -192,8 +181,6 @@ a.nav-link {
 .footer-section a {
   text-decoration: none;
   color: #2f2f2f;
-  -webkit-transition: .3s all ease;
-  -o-transition: .3s all ease;
   transition: .3s all ease;
 }
 
@@ -230,26 +217,12 @@ a.nav-link {
 .footer-section .contact-form .form-control:active,
 .footer-section .contact-form .form-control:focus {
   outline: none;
-  -webkit-box-shadow: none;
   box-shadow: none;
   border-color: #3b5d50;
-  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
-.footer-section .contact-form .form-control::-webkit-input-placeholder {
-  font-size: 14px;
-}
-
-.footer-section .contact-form .form-control::-moz-placeholder {
-  font-size: 14px;
-}
-
-.footer-section .contact-form .form-control:-ms-input-placeholder {
-  font-size: 14px;
-}
-
-.footer-section .contact-form .form-control:-moz-placeholder {
+.footer-section .contact-form .form-control::placeholder {
   font-size: 14px;
 }
 
@@ -275,8 +248,7 @@ a.nav-link {
   font-size: 32px;
   font-weight: 500;
   text-decoration: none;
-  color: #8B4513;
-  /* warna warmtalks footer */
+  color: #673ab7;
 }
 
 .footer-section .custom-social li {
@@ -332,5 +304,4 @@ a.nav-link {
 .custom-navbar .nav-item.dropdown .dropdown-menu {
   background-color: #ffffff;
   box-shadow: 0 4;
-  
 }

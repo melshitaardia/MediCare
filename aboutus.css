@@ -1,5 +1,5 @@
 .btnlogin {
-    background: #8B4513;
+    background: #E03F51;
 }
 
 .whatwedo {
@@ -18,6 +18,7 @@
     position: relative;
     top: 50px;
 }
+
 
 .inner-container {
     background: rgba(139, 69, 19, 0.13);
@@ -39,7 +40,7 @@
     text-align: center;
     overflow: hidden;
     position: relative;
-    border-radius: 10px 20px 30px 40px;
+    border-radius: 30px 30px 30px 30px;
 }
 
 
@@ -155,7 +156,6 @@
     content: "";
     width: 255px;
     height: 217px;
-    /* background-image: url("../images/yellow.svg"); */
     background-repeat: no-repeat;
     background-size: contain;
     -webkit-transform: translate(-40%, -40%);

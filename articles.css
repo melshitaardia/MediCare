@@ -1,67 +1,85 @@
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
 
-.text-heading {
-    font-family: "League Spartan", sans-serif;
-    color: #484BA1;
+body {
+    font-family: 'League Spartan', sans-serif;
+    background-color: #fff;
+    color: #333;
 }
 
-/* Cards */
+.section {
+    padding: 60px 0;
+}
+
+.text-heading {
+    color: #673ab7;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
 .posts-box {
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 40px 10px;
-    text-align: center;
-    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .posts-box li {
-    display: inline-block;
-    width: 320px;
-    max-width: 100%;
-    padding: 10px;
-    vertical-align: top;
+    list-style: none;
+    flex: 0 1 calc(33.333% - 10px);
+    margin-bottom: 30px;
 }
 
 .card {
-    text-align: left;
-    border-radius: 2px;
-    background: #FFFFFF;
-    box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.10),
-        0 1px 2px rgba(0, 0, 0, 0.22);
+    border: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #ffeef3;
+    text-align: center;
 }
 
 .card img {
-    display: block;
     width: 100%;
-    height: auto; /* Ensures the image maintains its aspect ratio */
+    height: 200px;
+    /* Set a fixed height */
+    object-fit: cover;
+    /* This will ensure the image covers the entire area without distortion */
+    border-bottom: 1px solid #eee;
 }
 
-.card div {
-    padding: 16px 20px;
-    border-bottom: 1px solid #EEEEEE;
+.card h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #333;
 }
 
-.card div h3 {
-    margin: 8px 0;
-    font-size: .9em;
+.card p {
+    font-size: 1rem;
+    color: #666;
 }
 
-.card div p {
-    margin: 8px 0;
-    font-size: .9em;
+.read-more-button {
+    background-color: #ff4081;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 
-/* Modal */
-.modal {
-    overflow-y: auto; /* Enable vertical scrollbar */
+.read-more-button:hover {
+    background-color: #e5397f;
 }
 
-.modal-dialog {
-    max-width: 90%; /* Adjust the modal width as needed */
+.btn-close {
+    border: none;
+    background: none;
 }
 
-.modal-body {
-    max-height: 600px; /* Adjust the modal body height as needed */
-    overflow-y: auto;
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.title {
+    color: #000;
 }

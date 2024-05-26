@@ -58,7 +58,7 @@ if (isset($_POST['logout'])) {
                                 </li>
                             <?php else : ?>
                                 <li>
-                                    <a href="login.php" class="btn btnlogin">Login</a>
+                                    <a href="login.php" class="btn btnlogin">Sign In</a>
                                 </li>
                             <?php endif; ?>
                         </ul>
@@ -79,17 +79,17 @@ if (isset($_POST['logout'])) {
                             <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
                                 iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
                                 Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
-                            <p><a href="#discoverus" class="btn btn-home">Get Started</a>
-                                <a href="explore.php" class="btn btn-home">Explore</a>
+                            <p><a href="articles.php" class="btn btn-home">Get Started</a>
+                                <a href="aboutus.php" class="btn btn-home">Explore</a>
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="img-wrap">
-                            <img src="images/home/home1.png" class="img-fluid"  
-                            style="margin-right: 80px; margin-top: -30px; margin-left: -70px" alt="Responsive Image">
+                            <img src="images/home/home1.png" class="img-fluid" alt="Responsive Image">
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

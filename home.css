@@ -8,6 +8,13 @@
     color: #484BA1;
 }
 
+.consul-text {
+    color: #484BA1;
+    font-weight: 750;
+    font-family: "League Spartan", sans-serif;
+    font-size: 45px;
+}
+
 blockquote {
     color: #333;
     font-style: italic;
@@ -31,7 +38,6 @@ blockquote {
 
 .section1 {
     color: #000;
-    /* #5C4033; */
 }
 
 .section-img-wrap {
@@ -40,50 +46,55 @@ blockquote {
     top: -50px;
     width: 800px;
     height: auto;
-    /*width: 200% udah max */
 }
 
 .section-img-wrap img {
     max-width: 100%;
-    /* Membuat gambar responsif */
+    width: 800px;
     height: auto;
     display: block;
     margin: 0 auto;
 }
 
-
-
 .img-wrap img {
-    width: 100%; /* Full width of the container by default */
-    max-width: 500px; /* Maximum width for larger screens */
-    height: auto; /* Maintain aspect ratio */
+    width: 100%;
+    max-width: 500px;
+    height: auto;
     display: block;
     margin: 0 auto;
-    margin-right: 80px; margin-top: -100px; margin-left: -100px;
+}
+
+@media (min-width: 1200px) {
+    .img-wrap img {
+        width: 120%;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-left: -85px; 
+        margin-top: -85px
+    }
+}
+
+@media (max-width: 834px) {
+    .img-wrap img {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 768px) {
     .img-wrap img {
-        max-width: 300px; /* Adjust the maximum width for smaller screens */
-        margin-right: 0; /* Adjust margins as needed */
-        margin-left: 0; /* Adjust margins as needed */
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
     }
 }
 
 @media (max-width: 576px) {
     .img-wrap img {
-        max-width: 100%; /* Full width of the container for very small screens */
-        margin-right: 0; /* Adjust margins as needed */
-        margin-left: 0; /* Adjust margins as needed */
-    }
-}
-
-@media (max-width: 768px) {
-    .section-img-wrap {
+        width: 100%;
         max-width: 100%;
-        height: auto;
-        /* Mengatasi masalah overflow */
-        display: block;
+        margin: 0 auto;
     }
 }
 
@@ -100,7 +111,6 @@ blockquote {
     content: "";
     width: 255px;
     height: 217px;
-    /* background-image: url("../images/yellow.svg"); */
     background-repeat: no-repeat;
     background-size: contain;
     -webkit-transform: translate(-40%, -40%);
@@ -143,7 +153,6 @@ blockquote {
 
 .testimonial-section {
     padding: 3rem 0 7rem 0;
-    /* background: #F4D3BA; */
     color: #642409;
     position: relative;
     top: 50%;
@@ -184,13 +193,6 @@ blockquote {
     margin-top: -50px;
 }
 
-@media (max-width: 834px) {
-    .section {
-        margin-left: 20px;
-        margin-right: 50px;
-    }
-}
-
 .image-grid {
     display: flex;
     justify-content: space-between;
@@ -220,7 +222,7 @@ blockquote {
 }
 
 .section .container {
-    padding-left: 15x;
+    padding-left: 15px;
     padding-right: 15px;
 }
 
@@ -234,11 +236,10 @@ blockquote {
 }
 
 .btn-home {
-  padding: 10px 20px;
-  border-radius: 30px;
-  color: #fff;
-  background-color: #484BA1;
-
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: #fff;
+    background-color: #484BA1;
 }
 
 .button-container {
@@ -255,6 +256,16 @@ blockquote {
     transition: background-color 0.3s, color 0.3s; 
 }
 
+.btn-start {
+    padding: 7px 100px !important;
+    border-radius: 30px;
+    color: #E03F51;
+    font-weight: 20px;
+    background-color: #FFFFFF;
+    border: 4px solid #F6CFD3;
+    transition: background-color 0.3s, color 0.3s;
+}
+
 .btn-read-more:hover {
     background-color: #FFFFFF; 
     color: #E03F51; 
@@ -265,7 +276,6 @@ blockquote {
     padding: 7rem 0;
 }
 
-
 .section3-section .img-wrap {
     position: relative;
 }
@@ -275,7 +285,6 @@ blockquote {
     content: "";
     width: 255px;
     height: 217px;
-    /* background-image: url("../images/yellow.svg"); */
     background-repeat: no-repeat;
     background-size: contain;
     -webkit-transform: translate(-40%, -40%);

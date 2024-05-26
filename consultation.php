@@ -106,6 +106,10 @@ if (isset($_POST['logout'])) {
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        .linear-grad {
+            background: linear-gradient(#F6CFD3 10%, #fff 95%);
+        }
+
         .section {
             padding-left: 0;
         }
@@ -201,7 +205,7 @@ if (isset($_POST['logout'])) {
         .prev-btn,
         .next-btn {
             position: absolute;
-            top: 75%;
+            top: 65%;
             transform: translateY(-50%);
             background: transparent;
             border: none;
@@ -252,7 +256,7 @@ if (isset($_POST['logout'])) {
                                 </li>
                             <?php else : ?>
                                 <li>
-                                    <a href="login.php" class="btn btnlogin">Login</a>
+                                    <a href="login.php" class="btn btnlogin">Sign In</a>
                                 </li>
                             <?php endif; ?>
                         </ul>
@@ -260,19 +264,25 @@ if (isset($_POST['logout'])) {
                 </div>
             </nav>
         </div>
+
         <div class="section">
-            <div class="container">
+            <div class="container" style="margin-right:40px; margin-bottom: 60px;">
                 <div class="row justify-content-between">
                     <div class="col-lg-6 pb-3">
                         <div class="intro-excerpt">
                             <h1>
-                                <span class="warmtalks-text">Concerned about your Health? Let us help you</span>
+                                <span class="consul-text">Concerned about your <br>
+                                    Health? Let us help you</span>
                             </h1>
                             <ul class="section1 mt-5">
                                 <li>Easily accesable from home, saving time and travel hassle</li>
                                 <li>Easily accesable from home, saving time and travel hassle</li>
                                 <li>Easily accesable from home, saving time and travel hassle</li>
                             </ul>
+                        </div>
+                        <div class="text-center">
+                            <p><a href="#startconsul" class="btn btn-start">Start Consultation</a>
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
@@ -283,215 +293,221 @@ if (isset($_POST['logout'])) {
                     </div>
                 </div>
             </div>
-            <div class="card-container mt-3 item-center">
+        </div>
+
+        <div class="section">
+            <div class="card-container mt-3 item-center" id="startconsul">
                 <div class="row pt-4">
                 </div>
             </div>
-            <div class="text-center mt-3">
+            <div class="text-center mt-3 mb-4">
                 <button class="btn btn-primary prev-btn pr-3"><i class="fa fa-arrow-left"></i></button>
                 <button class="btn btn-primary next-btn pl-3"><i class="fa fa-arrow-right"></i></button>
             </div>
         </div>
-        <?php if ($username) : ?>
-            <div class="history-container table-responsive px-5 pb-2">
-                <h2>History Data</h2>
-                <table class="table align-items-center justify-content-center mb-0 table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nama Dokter</th>
-                            <th>Dokter </th>
-                            <th>Biaya</th>
-                            <th>Tanggal</th>
-                            <th>Waktu</th>
-                            <th>Metode Bayar</th>
-                        </tr>
-                    </thead>
-                    <tbody class="history-data"></tbody>
-                </table>
-            </div>
-        <?php endif; ?>
+    </div>
 
-        <div class="modal" id="consultationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Consultation Form</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <?php if ($username) : ?>
+        <div class="history-container table-responsive px-5 pb-2" style="margin-top: 90px;">
+            <h2>History Data</h2>
+            <table class="table align-items-center justify-content-center mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Nama Dokter</th>
+                        <th>Dokter </th>
+                        <th>Biaya</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                        <th>Metode Bayar</th>
+                    </tr>
+                </thead>
+                <tbody class="history-data"></tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+
+    <div class="modal" id="consultationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Consultation Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="">
+                        <input type="hidden" name="action" value="insert">
+                        <div class="mb-3">
+                            <label for="str" class="form-label">STR:</label>
+                            <input type="text" class="form-control" id="str" name="str" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="str" class="form-label">Pasien:</label>
+                            <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="biaya" class="form-label">Biaya:</label>
+                            <input type="text" class="form-control" id="biaya" name="biaya" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggal" class="form-label">Tanggal:</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="waktu" class="form-label">Waktu:</label>
+                            <input type="time" class="form-control" id="waktu" name="waktu" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" onclick="confirmPayment()">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="paymentModal" tabindex="-1" aria-labelledby="paymentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg rounded-lg modal-dialog-centered">
+            <div class="modal-content p-4">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3>Payment Method ID: <p id="insertedId"></p>
+                        </h3>
+                        <div class="col-md-12">
+                            <input type="radio" class="btn-check" name="options" value="MasterCard" id="mastercard" autocomplete="off" required>
+                            <label class="btn btn-outline-secondary m-1" for="mastercard"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1280px-MasterCard_Logo.svg.png" width="15px" height="10px"></label>
+                            <input type="radio" class="btn-check" name="options" value="Visa" id="visa" autocomplete="off" required>
+                            <label class="btn btn-outline-secondary m-1" for="visa"><img class="object-fill" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Visa_Logo.png/640px-Visa_Logo.png" width="15px" height="10px"></label>
+                            <input type="radio" class="btn-check" name="options" value="JCB" id="jcb" autocomplete="off" required>
+                            <label class="btn btn-outline-secondary m-1" for="jcb"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/1280px-JCB_logo.svg.png" width="15px" height="10px"></label>
+                            <input type="radio" class="btn-check" name="options" value="Dana" id="dana" autocomplete="off" required>
+                            <label class="btn btn-outline-secondary m-1" for="dana"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/2560px-Logo_dana_blue.svg.png" width="15px" height="10px"></label>
+                            <input type="radio" class="btn-check" name="options" value="Gopay" id="gopay" autocomplete="off" required>
+                            <label class="btn btn-outline-secondary m-1" for="gopay"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/2560px-Gopay_logo.svg.png" width="15px" height="10px"></label>
+                            <input type="radio" class="btn-check" name="options" value="OVO" id="ovo" autocomplete="off" required>
+                            <label class="btn btn-outline-secondary m-1" for="ovo"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/2560px-Logo_ovo_purple.svg.png" width="15px" height="10px"></label>
+                        </div>
+                        <div class="pt-4" id="card-details" style="display: none;">
+                            <div class="form-group col-md-12">
+                                <label for="biaya" class="form-label">Cardholder Name:</label>
+                                <input type="text" id="cardholderName" class="form-control w-full" placeholder="Cardholder Name" required><br>
+                            </div>
+                            <div class="form-group col-md-12 flex row justify-content-center">
+                                <div class="form-group col-md-5">
+                                    <label for="card" class="form-label">Card Number:</label>
+                                    <input type="text" id="cardNumber" class="form-control" placeholder="Card Number" required><br>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="date" class="form-label">Date:</label>
+                                    <input type="date" id="expiryDate" class="form-control" placeholder="Expiry Date" required><br>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="ccv" class="form-label">CCV:</label>
+                                    <input type="text" id="cvv" class="form-control" placeholder="CVV" required><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group pt-4 col-md-12" id="phone-details" style="display: none;">
+                            <label for="phone" class="form-label">Phone Number:</label>
+                            <input type="text" id="phoneNumber" class="form-control w-full" placeholder="Phone Number" required>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form method="post" action="">
-                            <input type="hidden" name="action" value="insert">
-                            <div class="mb-3">
-                                <label for="str" class="form-label">STR:</label>
-                                <input type="text" class="form-control" id="str" name="str" readonly>
+                    <div class="col-md-5">
+                        <h3>Order Summary</h3>
+                        <div class="order-summary">
+                            <div class="d-flex justify-content-between">
+                                <p>Balance Amount : </p>
+                                <p id="balanceAmount"></p>
                             </div>
-                            <div class="mb-3">
-                                <label for="str" class="form-label">Pasien:</label>
-                                <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>" readonly>
+                            <div class="d-flex justify-content-between">
+                                <p>Service Charge :</p>
+                                <p>Rp. 3.500</p>
                             </div>
-                            <div class="mb-3">
-                                <label for="biaya" class="form-label">Biaya:</label>
-                                <input type="text" class="form-control" id="biaya" name="biaya" readonly>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <p>Total Payment :</p>
+                                <p id="totalPayment"></p>
                             </div>
-                            <div class="mb-3">
-                                <label for="tanggal" class="form-label">Tanggal:</label>
-                                <input type="date" class="form-control" id="tanggal" name="tanggal" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="waktu" class="form-label">Waktu:</label>
-                                <input type="time" class="form-control" id="waktu" name="waktu" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" onclick="confirmPayment()">Submit</button>
+                        </div>
+                        <form method="post" class="row" action="" onsubmit="return validatePaymentForm();">
+                            <input type="hidden" name="action" value="payment">
+                            <input type="hidden" class="form-control" id="id_pemesanan" name="id_pemesanan">
+                            <input type="hidden" class="form-control" name="metode_bayar" id="metode_bayar">
+                            <input type="hidden" class="form-control" name="username" id="username" value="<?php echo $username; ?>">
+                            <input type="hidden" class="form-control" name="totalPayment" id="totalPayment">
+                            <button class="btn btn-success w-full" type="submit">Confirm Payment</button>
+                            <button type="btn" class="btn btn-danger w-full mt-2" data-bs-dismiss="modal">Cancel</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal" id="paymentModal" tabindex="-1" aria-labelledby="paymentLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg rounded-lg modal-dialog-centered">
-                <div class="modal-content p-4">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <h3>Payment Method ID: <p id="insertedId"></p>
-                            </h3>
-                            <div class="col-md-12">
-                                <input type="radio" class="btn-check" name="options" value="MasterCard" id="mastercard" autocomplete="off">
-                                <label class="btn btn-outline-secondary m-1" for="mastercard"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1280px-MasterCard_Logo.svg.png" width="15px" height="10px"></label>
-                                <input type="radio" class="btn-check" name="options" value="Visa" id="visa" autocomplete="off">
-                                <label class="btn btn-outline-secondary m-1" for="visa"><img class="object-fill" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Visa_Logo.png/640px-Visa_Logo.png" width="15px" height="10px"></label>
-                                <input type="radio" class="btn-check" name="options" value="JCB" id="jcb" autocomplete="off">
-                                <label class="btn btn-outline-secondary m-1" for="jcb"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/1280px-JCB_logo.svg.png" width="15px" height="10px"></label>
-                                <input type="radio" class="btn-check" name="options" value="Dana" id="dana" autocomplete="off">
-                                <label class="btn btn-outline-secondary m-1" for="dana"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/2560px-Logo_dana_blue.svg.png" width="15px" height="10px"></label>
-                                <input type="radio" class="btn-check" name="options" value="Gopay" id="gopay" autocomplete="off">
-                                <label class="btn btn-outline-secondary m-1" for="gopay"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/2560px-Gopay_logo.svg.png" width="15px" height="10px"></label>
-                                <input type="radio" class="btn-check" name="options" value="OVO" id="ovo" autocomplete="off">
-                                <label class="btn btn-outline-secondary m-1" for="ovo"><img class="object-fit" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/2560px-Logo_ovo_purple.svg.png" width="15px" height="10px"></label>
-                            </div>
-                            <div class="pt-4" id="card-details" style="display: none;">
-                                <div class="form-group col-md-12">
-                                    <label for="biaya" class="form-label">Cardholder Name:</label>
-                                    <input type="text" id="cardholderName" class="form-control w-full" placeholder="Cardholder Name"><br>
-                                </div>
-                                <div class="form-group col-md-12 flex row justify-content-center">
-                                    <div class="form-group col-md-5">
-                                        <label for="card" class="form-label">Card Number:</label>
-                                        <input type="text" id="cardNumber" class="form-control" placeholder="Card Number"><br>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="date" class="form-label">Date:</label>
-                                        <input type="date" id="expiryDate" class="form-control" placeholder="Expiry Date"><br>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="ccv" class="form-label">CCV:</label>
-                                        <input type="text" id="cvv" class="form-control" placeholder="CVV"><br>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group pt-4 col-md-12" id="phone-details" style="display: none;">
-                                <label for="phone" class="form-label">Phone Number:</label>
-                                <input type="text" id="phoneNumber" class="form-control w-full" placeholder="Phone Number">
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <h3>Order Summary</h3>
-                            <div class="order-summary">
-                                <div class="d-flex justify-content-between">
-                                    <p>Balance Amount : </p>
-                                    <p id="balanceAmount"></p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <p>Service Charge :</p>
-                                    <p>Rp. 3.500</p>
-                                </div>
-                                <hr>
-                                <div class="d-flex justify-content-between">
-                                    <p>Total Payment :</p>
-                                    <p id="totalPayment"></p>
-                                </div>
-                            </div>
-                            <form method="post" class="row" action="" onsubmit="return validatePaymentForm();">
-                                <input type="hidden" name="action" value="payment">
-                                <input type="hidden" class="form-control" id="id_pemesanan" name="id_pemesanan">
-                                <input type="hidden" class="form-control" name="metode_bayar" id="metode_bayar">
-                                <input type="hidden" class="form-control" name="username" id="username" value="<?php echo $username; ?>">
-                                <input type="hidden" class="form-control" name="totalPayment" id="totalPayment">
-                                <button class="btn btn-success w-full" type="submit">Confirm Payment</button>
-                            </form>
-                        </div>
+    <footer class="footer-section">
+        <div class="container relative">
+            <div class="rows g-5 mb-5">
+                <div class="col-lg-4 col-md-3">
+                    <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">MediCare<span>.</span></a>
                     </div>
+                    <p class="mb-4">byMediCare@gmail.com</p>
+                    <p class="mb-4">+628XXXXXXXXXXXX</p>
+                    <p class="mb-4">@MediCare</p>
+                    </p>
+
+                    <ul class="list-unstyled custom-social">
+                        <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                        <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                                </svg></a></li>
+                        <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                    </ul>
                 </div>
-            </div>
-        </div>
 
-        <footer class="footer-section">
-            <div class="container relative">
-                <div class="rows g-5 mb-5">
-                    <div class="col-lg-4 col-md-3">
-                        <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">MediCare<span>.</span></a>
+                <div class="col-lg-8 col-md-9">
+                    <div class="row links-wrap d-flex justify-content-end">
+
+                        <div class="col-6 col-sm-6 col-md-3">
+                            <ul class="list-unstyled">
+                                <li><a href="consultation.php">Consultation</a></li>
+                                <li><a href="articles.php">Articles</a></li>
+                            </ul>
                         </div>
-                        <p class="mb-4">byMediCare@gmail.com</p>
-                        <p class="mb-4">+628XXXXXXXXXXXX</p>
-                        <p class="mb-4">@MediCare</p>
-                        </p>
 
-                        <ul class="list-unstyled custom-social">
-                            <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-                            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                                        <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
-                                    </svg></a></li>
-                            <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-                        </ul>
-                    </div>
+                        <div class="col-6 col-sm-6 col-md-3">
+                            <ul class="list-unstyled">
+                                <li><a href="aboutus.php">About Us</a></li>
+                                <li><a href="faq.php">FAQ</a></li>
+                            </ul>
+                        </div>
 
-                    <div class="col-lg-8 col-md-9">
-                        <div class="row links-wrap d-flex justify-content-end">
-
-                            <div class="col-6 col-sm-6 col-md-3">
-                                <ul class="list-unstyled">
-                                    <li><a href="consultation.php">Consultation</a></li>
-                                    <li><a href="articles.php">Articles</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="col-6 col-sm-6 col-md-3">
-                                <ul class="list-unstyled">
-                                    <li><a href="aboutus.php">About Us</a></li>
-                                    <li><a href="faq.php">FAQ</a></li>
-                                </ul>
-                            </div>
-
-                            <!-- <div class="col-6 col-sm-6 col-md-3">
+                        <!-- <div class="col-6 col-sm-6 col-md-3">
                             <ul class="list-unstyled">
                                 <li><a href="aboutus.php">FAQ</a></li>
                             </ul>
                         </div> -->
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="border-top copyright">
-                    <div class="row pt-4">
-                        <div class="col-lg-6">
-                            <p class="mb-2 text-center text-lg-start">Bridging Hearts, Healing Minds
-                                &hearts;</a>
-
-                            </p>
-                        </div>
-
-                        <div class="col-lg-6 text-center text-lg-end">
-                            <ul class="list-unstyled d-inline-flex ms-auto">
-                                <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
             </div>
-        </footer>
+
+
+            <div class="border-top copyright">
+                <div class="row pt-4">
+                    <div class="col-lg-6">
+                        <p class="mb-2 text-center text-lg-start">Bridging Hearts, Healing Minds
+                            &hearts;</a>
+
+                        </p>
+                    </div>
+
+                    <div class="col-lg-6 text-center text-lg-end">
+                        <ul class="list-unstyled d-inline-flex ms-auto">
+                            <li class="me-4"><a href="#">Terms &amp; Conditions</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -575,13 +591,13 @@ if (isset($_POST['logout'])) {
     });
 
     function validatePaymentForm() {
-    var selectedPaymentMethod = document.querySelector('input[name="options"]:checked');
-    if (!selectedPaymentMethod) {
-        alert("Pilih metode bayar");
-        return false;
+        var selectedPaymentMethod = document.querySelector('input[name="options"]:checked');
+        if (!selectedPaymentMethod) {
+            alert("Pembayaran gagal");
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
     function renderHistoryData(historyData) {
         const historyContainer = document.querySelector('.history-container .history-data');
@@ -643,6 +659,34 @@ if (isset($_POST['logout'])) {
             const cardHtml = generateCard(card);
             cardsContainer.innerHTML += cardHtml;
         });
+    }
+
+    function validatePaymentForm() {
+        var selectedPaymentMethod = document.querySelector('input[name="options"]:checked');
+        if (!selectedPaymentMethod) {
+            alert("Please select a payment method.");
+            return false;
+        }
+
+        var cardholderName = document.getElementById('cardholderName').value;
+        var cardNumber = document.getElementById('cardNumber').value;
+        var expiryDate = document.getElementById('expiryDate').value;
+        var cvv = document.getElementById('cvv').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
+
+        if (selectedPaymentMethod.value === 'MasterCard' || selectedPaymentMethod.value === 'Visa' || selectedPaymentMethod.value === 'JCB') {
+            if (!cardholderName || !cardNumber || !expiryDate || !cvv) {
+                alert("Please fill in all card details.");
+                return false;
+            }
+        } else {
+            if (!phoneNumber) {
+                alert("Please fill in your phone number.");
+                return false;
+            }
+        }
+
+        return true;
     }
 </script>
 

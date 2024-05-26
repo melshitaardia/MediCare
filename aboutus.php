@@ -1,5 +1,25 @@
 <?php
 include 'database.php';
+session_start();
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] == 'logout') {
+            session_unset();
+            session_destroy();
+            header("Location: login.php");
+            exit;
+        }
+    }
+}
+
+if (isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,13 +58,17 @@ include 'database.php';
                             <li><a class="nav-link" href="faq.php">FAQ</a></li>
                         </ul>
                         <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <!-- <li><a class="btn btnlogin" href="login.php">Sign In</a></li> -->
-
-                            <li>
-                                <form method="POST" action="logout.php">
-                                    <button type="submit" name="logout" class="btn btnlogin">Sign Out</button>
-                                </form>
-                            </li>
+                            <?php if ($username) : ?>
+                                <li>
+                                    <form method="POST" action="">
+                                        <button type="submit" name="logout" class="btn btn-login">Sign Out</button>
+                                    </form>
+                                </li>
+                            <?php else : ?>
+                                <li>
+                                    <a href="login.php" class="btn btnlogin">Sign In</a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                 </div>
@@ -54,7 +78,7 @@ include 'database.php';
         <div class="section"> <!-- kasih id=" " -->
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-7 mx-auto text-center pt-5 pb-3"> <!-- max pt 5 -->
+                    <div class="col-lg-7 mx-auto text-center pt-2 pb-3"> <!-- max pt 5 -->
                         <h1 class="section-title">Who We Are</h1>
                     </div>
                 </div>
@@ -81,7 +105,7 @@ include 'database.php';
     <div class="section">
         <div class="container" style="max-width: 1200px; margin: 0 auto;">
             <div class="row justify-content-evenly">
-                <h2 class="section-title text-center pt-3 pb-5">Meet Our Team</h2>
+                <h1 class="section-title text-center pt-3 pb-5">Meet Our Team</h1>
 
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="our-team">
@@ -255,6 +279,7 @@ include 'database.php';
                 </div>
             </div>
         </footer>
+
 
 </body>
 

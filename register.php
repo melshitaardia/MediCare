@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" id="fullname" name="fullname" placeholder="Full Name" required>
                 </div>
                 <div class="input-container">
-                    <input type="text" id="username" name="username" placeholder="Username" required>
+                    <input type="email" id="username" name="username" placeholder="Username" required pattern="^\S+@student\.ub\.ac\.id$">
                 </div>
                 <div class="input-container">
                     <input type="password" id="password" name="password" placeholder="Password" required>

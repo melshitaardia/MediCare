@@ -506,7 +506,17 @@ if (isset($_POST['logout'])) {
         fetch('doctor.php')
             .then(response => response.json())
             .then(data => {
-                renderCards(data.slice(0, 4));
+                let screenWidth = window.innerWidth;
+                let cardsToRender = data
+                if (screenWidth < 768) {
+                    cardsToRender = data.slice(0, 1);
+                }else if (screenWidth < 1080) {
+                    cardsToRender = data.slice(0, 2);
+                } else {
+                    cardsToRender = data.slice(0, 4);
+                }
+
+                renderCards(cardsToRender);
 
                 const prevBtn = document.querySelector('.prev-btn');
                 const nextBtn = document.querySelector('.next-btn');
@@ -515,14 +525,32 @@ if (isset($_POST['logout'])) {
                 prevBtn.addEventListener('click', () => {
                     if (currentPage > 0) {
                         currentPage--;
-                        renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
+                        if (screenWidth < 768) {
+                            renderCards(data.slice(currentPage * 1, (currentPage + 1) * 1));
+                        }else if (screenWidth < 1080) {
+                            renderCards(data.slice(currentPage * 2, (currentPage + 1) * 2));
+                        } else {
+                            renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
+                        }
                     }
                 });
 
                 nextBtn.addEventListener('click', () => {
-                    if ((currentPage + 1) * 4 < data.length) {
-                        currentPage++;
-                        renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
+                    if (screenWidth < 768) {
+                        if ((currentPage + 1) * 1 < data.length) {
+                            currentPage++;
+                            renderCards(data.slice(currentPage * 1, (currentPage + 1) * 1));
+                        }
+                    }else if (screenWidth < 1080) {
+                        if ((currentPage + 1) * 2 < data.length) {
+                            currentPage++;
+                            renderCards(data.slice(currentPage * 2, (currentPage + 1) * 2));
+                        }
+                    } else {
+                        if ((currentPage + 1) * 4 < data.length) {
+                            currentPage++;
+                            renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
+                        }
                     }
                 });
             })

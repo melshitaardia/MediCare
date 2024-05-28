@@ -12,6 +12,9 @@ function login($username, $password) {
     $result = $mysqli->query($sql);
 
     if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $_SESSION['roles'] = $row['role'];
+        $mysqli->close();
         return true; 
     } else {
         return false; 

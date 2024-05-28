@@ -2,6 +2,8 @@
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
+$roles = isset($_SESSION['roles']) ? $_SESSION['roles'] : null;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action'])) {
         if ($_POST['action'] == 'logout') {
@@ -97,6 +99,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </li>
                         <li><a class="nav-link" href="aboutus.php">About Us</a></li>
                         <li><a class="nav-link" href="faq.php">FAQ</a></li>
+                        <?php if ($roles == "admin") : ?>
+                            <li><a class="nav-link" href="admin.php">Admin</a></li>
+                        <?php endif; ?>
                     </ul>
                     <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
                         <?php if ($username) : ?>
@@ -106,9 +111,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuAvatar">
                                     <li>
-                                        <form method="POST" action="">
-                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal"><button type="submit" name="user" class="dropdown-item">My Profile</button></a>
-                                        </form>
+                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">My Profile</a>
+
                                     </li>
                                     <li>
                                         <form method="POST" action="">
@@ -183,7 +187,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         document.getElementById('pasw').value = userData.password;
                         document.getElementById('profileImage').src = userData.profile;
                         document.getElementById('profilesImage').src = userData.profile;
-                        console.log(filteredUserData);
                     } else {
                         console.log('User not found');
                     }

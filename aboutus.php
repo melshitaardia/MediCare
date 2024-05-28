@@ -3,23 +3,15 @@ include 'database.php';
 session_start();
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['action'])) {
-        if ($_POST['action'] == 'logout') {
-            session_unset();
-            session_destroy();
-            header("Location: login.php");
-            exit;
-        }
-    }
-}
-
 if (isset($_POST['logout'])) {
     session_unset();
+
     session_destroy();
+
     header("Location: login.php");
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -37,62 +29,24 @@ if (isset($_POST['logout'])) {
 
 <body>
     <div class="linear-grad">
-        <div class="p-3 navbarbar">
-            <nav class="custom-navbar navbar navbar navbar-expand-lg navbar-dark bg-dark" arial-label="Warmtalks navigation bar">
-                <div class="container">
-                    <img src="images\logo1.png" class="logo">
-                    <a class="navbar-brand" href="home.php">MediCare<span>.</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsWarmtalks" aria-controls="navbarsWarmtalks" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars" style="color: #8b4513;"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarsWarmtalks">
-                        <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="consultation.php">Consultation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="articles.php">Articles</a>
-                            </li>
-                            <li><a class="nav-link" href="aboutus.php">About Us</a></li>
-                            <li><a class="nav-link" href="faq.php">FAQ</a></li>
-                        </ul>
-                        <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <?php if ($username) : ?>
-                                <li>
-                                    <form method="POST" action="">
-                                        <button type="submit" name="logout" class="btn btn-login">Sign Out</button>
-                                    </form>
-                                </li>
-                            <?php else : ?>
-                                <li>
-                                    <a href="login.php" class="btn btnlogin">Sign In</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        <?php
+        include 'navbar.php';
+        ob_end_flush();
+        ?>
 
         <div class="section"> <!-- kasih id=" " -->
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7 mx-auto text-center pt-2 pb-3"> <!-- max pt 5 -->
-                        <h1 class="section-title">Who We Are</h1>
+                        <h1 class="title">Who We Are</h1>
                     </div>
                 </div>
-                <div class="testimonial-block text-center">
-                    <blockquote class="mb-5">
-                        <p>&ldquo;Kami menghadirkan solusi inovatif untuk merangkul kesejahteraam
-                            mental, khususnya bagi individu dan keluarga yang menghadapi dinamika rumah tangga
-                            yang terpecah. Dengan komitmen penuh, warmtalks berupaya memberikan bantuan terbaik
-                            untuk membantu individu dan keluarga melewati setiap tantangan, menciptakan ruang
-                            empati di mana penyembuhan dan pemahaman dapat berkembang. Kami membuka pintu bagi
-                            Anda untuk menjelajahi sumber daya dan dukungan yang kami tawarkan, membantu Anda
-                            menemukan jalur menuju ketahanan dan keberlanjutan emosional, terutama bagi mereka
-                            yang tinggal dalam lingkungan broken home&rdquo;</p>
-                    </blockquote>
+                <div class="testimonial-block text-center mb-5">
+                    <p>Medicare adalah platform kesehatan inovatif yang bertujuan untuk memberikan akses
+                        mudah dan <br>terpercaya kepada layanan kesehatan berkualitas. Kami memahami betapa
+                        pentingnya kesehatan bagi <br>setiap individu, oleh karena itu kami berkomitmen untuk
+                        menyediakan solusi kesehatan yang praktis dan <br>efektif melalui teknologi telemedicine.
+                    </p>
                 </div>
             </div>
             <div class="text-center">
@@ -106,7 +60,6 @@ if (isset($_POST['logout'])) {
         <div class="container" style="max-width: 1200px; margin: 0 auto;">
             <div class="row justify-content-evenly">
                 <h1 class="section-title text-center pt-3 pb-5">Meet Our Team</h1>
-
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="our-team">
                         <div class="picture">
@@ -168,20 +121,20 @@ if (isset($_POST['logout'])) {
                             <div class="col-6 col-md-6">
                                 <div class="smallbg p-2 feature">
                                     <div class="icon">
-                                        <img src="images/fam.svg" alt="Image" class="imf-fluid">
+                                        <img src="images/aboutus/doctor.png" alt="Image" class="imf-fluid">
                                     </div>
-                                    <h3>Counseling</h3>
-                                    <p>Dukungan dengan ahli kesehatan mental melalui video call.</p>
+                                    <h3>Konsultasi Online</h3>
+                                    <p>Konsultasi dengan dokter ahli kapan saja dan di mana saja melalui video call atau chat.</p>
                                 </div>
                             </div>
 
                             <div class="col-6 col-md-6">
                                 <div class="smallbg p-2 feature">
                                     <div class="icon">
-                                        <img src="images/fam.svg" alt="Image" class="imf-fluid">
+                                        <img src="images/aboutus/monitor.png" alt="Image" class="imf-fluid">
                                     </div>
-                                    <h3>Topics</h3>
-                                    <p>Temukan panduan dan informasi untuk memahami kesehatan mental.
+                                    <h3>Jadwalkan Konsultasi</h3>
+                                    <p>Jadwalkan sesi konsultasi dengan dokter pilihan Anda sesuai waktu yang nyaman.
                                     </p>
                                 </div>
                             </div>
@@ -189,20 +142,20 @@ if (isset($_POST['logout'])) {
                             <div class="col-6 col-md-6">
                                 <div class="smallbg p-2 feature">
                                     <div class="icon">
-                                        <img src="images/fam.svg" alt="Image" class="imf-fluid">
+                                        <img src="images/aboutus/medical.png" alt="Image" class="imf-fluid">
                                     </div>
-                                    <h3>Explore</h3>
-                                    <p>Berita dan artikel untuk lebih memahami kesehatan mental.</p>
+                                    <h3>Informasi Kesehatan</h3>
+                                    <p>Artikel tentang berbagai topik kesehatan penting yang ditulis oleh profesional medis.</p>
                                 </div>
                             </div>
 
                             <div class="col-6 col-md-6">
                                 <div class="smallbg p-2 feature">
                                     <div class="icon">
-                                        <img src="images/fam.svg" alt="Image" class="imf-fluid">
+                                        <img src="images/aboutus/tool.png" alt="Image" class="imf-fluid">
                                     </div>
-                                    <h3>Mood Tracker</h3>
-                                    <p>Lacak perasaanmu untuk menuju ke dukungan yang sesuai.</p>
+                                    <h3>Panduan Kesehatan</h3>
+                                    <p>Panduan praktis untuk menerapkan gaya hidup sehat, mencakup nutrisi, olahraga, dan kesehatan mental.</p>
                                 </div>
                             </div>
 

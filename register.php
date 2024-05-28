@@ -4,20 +4,26 @@ include 'database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if (empty($fullname) || empty($username) || empty($password)) {
+    if (empty($fullname) || empty($email) || empty($username) || empty($password)) {
         $_SESSION['error'] = "All fields are required.";
     } else {
         $mysqli = connectDB();
-        $sql = "SELECT * FROM akun WHERE username='$username'";
+        $sql = "SELECT * FROM akun WHERE email='$email' OR username='$username'";
         $result = $mysqli->query($sql);
 
         if ($result->num_rows > 0) {
-            $_SESSION['error'] = "Username already exists.";
+            $row = $result->fetch_assoc();
+            if ($row['email'] == $email) {
+                $_SESSION['error'] = "Email already exists.";
+            } elseif ($row['username'] == $username) {
+                $_SESSION['error'] = "Username already exists.";
+            }
         } else {
-            $sql = "INSERT INTO akun (fullname, username, password) VALUES ('$fullname', '$username', '$password')";
+            $sql = "INSERT INTO akun (fullname, email, username, password) VALUES ('$fullname', '$email', '$username', '$password')";
             if ($mysqli->query($sql) === TRUE) {
                 echo "<script>alert('Congratulations! Your account has been created.'); 
                 window.location.href = 'login.php';</script>";
@@ -34,12 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare Sign Up</title>
+    <title>MediCare Register</title>
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
@@ -53,11 +60,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-panel">
             <form id="registerForm" method="POST" action="">
                 <h2>Create Account</h2>
-                <div class="input-container" style="margin-top: 15px;">
+                <div class="input-container" style="margin-top: 4px;">
                     <input type="text" id="fullname" name="fullname" placeholder="Full Name" required>
                 </div>
                 <div class="input-container">
-                    <input type="email" id="username" name="username" placeholder="Username" required pattern="^\S+@student\.ub\.ac\.id$">
+                    <!-- <input type="email" id="username" name="username" placeholder="Username" required pattern="^\S+@student\.ub\.ac\.id$"> -->
+                    <input type="email" id="email" name="email" placeholder="Email" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+                </div>
+                <div class="input-container">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
                 </div>
                 <div class="input-container">
                     <input type="password" id="password" name="password" placeholder="Password" required>

@@ -1,4 +1,5 @@
 <?php
+
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,10 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         } elseif ($_POST['action'] == 'editProfile') {
             $conn = connectDB();
+            $newFull = isset($_POST['newFull']) ? $_POST['newFull'] : null;
+            $newEmail = isset($_POST['newEmail']) ? $_POST['newEmail'] : null;
             $newPassword = isset($_POST['newPassword']) ? $_POST['newPassword'] : null;
 
             if (isset($_FILES['profileUpload']) && $_FILES['profileUpload']['error'] == UPLOAD_ERR_OK) {
-                $uploadDirectory = 'MediCare/images/account/';
+                $uploadDirectory = 'finalproject/images/account/';
 
                 if (!file_exists($uploadDirectory)) {
                     mkdir($uploadDirectory, 0777, true);
@@ -23,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $destination = $uploadDirectory . $filename;
                 if (move_uploaded_file($_FILES['profileUpload']['tmp_name'], $destination)) {
-                    $stmt = $conn->prepare("UPDATE akun SET profile=?, password=? WHERE username=?");
-                    if ($stmt->execute([$destination, $newPassword, $username])) {
+                    $stmt = $conn->prepare("UPDATE akun SET profile=?, password=?, fullname=?, email=? WHERE username=?");
+                    if ($stmt->execute([$destination, $newPassword, $newFull, $newEmail, $username])) {
                         echo "<script>
                             alert('Upload berhasil.');
                             setTimeout(function() {
@@ -99,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if ($username) : ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuAvatar" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="" id="profileImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" />
+                                    <img src="" id="profileImage" class="rounded-circle" height="40" alt="Profile Image" loading="lazy" />
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuAvatar">
                                     <li>
@@ -114,14 +117,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </li>
                                 </ul>
                             </li>
-                            <!-- <li>
-                                <form method="POST" action="">
-                                    <button type="submit" name="logout" class="btn btn-login">Sign Out</button>
-                                </form>
-                            </li> -->
                         <?php else : ?>
                             <li>
-                                <a href="login.php" class="btn btnlogin">Login</a>
+                                <a href="login.php" class="btn btnlogin">Sign In</a>
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -139,14 +137,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="modal-body" id="profileModalBody">
                         <img src="" id="profilesImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" />
-                        <!-- <img src="" id="profileImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" /> -->
+                        <div class="mb-3">
+                            <label for="editFull" class="form-label">Full Name</label>
+                            <input type="text" name="newFull" class="form-control" id="full" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Email</label>
+                            <input type="text" name="newEmail" class="form-control" id="email" readonly>
+                        </div>
                         <div class="mb-3">
                             <label for="editName" class="form-label">Username</label>
                             <input type="text" class="form-control" id="uname" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="editEmail" class="form-label">Password</label>
-                            <input type="password" name="newPassword" class="form-control" id="jjinja" required>
+                            <input type="password" name="newPassword" class="form-control" id="pasw" required>
                         </div>
                         <div class="mb-3">
                             <label for="profileUpload" class="form-label">Upload Profile Image</label>
@@ -172,8 +177,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     const filteredUserData = data.filter(user => user.username === "<?php echo $username; ?>");
                     if (filteredUserData.length > 0) {
                         const userData = filteredUserData[0];
+                        document.getElementById('full').value = userData.fullname;
+                        document.getElementById('email').value = userData.email;
                         document.getElementById('uname').value = userData.username;
-                        document.getElementById('jjinja').value = userData.password;
+                        document.getElementById('pasw').value = userData.password;
                         document.getElementById('profileImage').src = userData.profile;
                         document.getElementById('profilesImage').src = userData.profile;
                         console.log(filteredUserData);

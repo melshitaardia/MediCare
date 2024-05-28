@@ -151,7 +151,7 @@ if (isset($_POST['logout'])) {
         }
 
         .card-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 10px;
         }
 
@@ -231,34 +231,32 @@ if (isset($_POST['logout'])) {
         ob_end_flush();
         ?>
         <div class="section">
-            <div class="container" style="margin-right:40px; margin-bottom: 60px;">
+            <div class="container" style="margin-right:40px; margin-bottom: 10px;">
                 <div class="row justify-content-between">
-                    <div class="col-lg-6 pb-1">
+                    <div class="col-lg-6 col-md-12 pb-1">
                         <div class="intro-excerpt">
                             <h1>
-                                <span class="consul-text">Concerned about your <br>
-                                    Health? Let us help you</span>
+                                <span class="consul-text">Concerned about your <br> Health? Let us help you</span>
                             </h1>
-                            <ul class="section1 mt-5">
-                                <li>Easily accesable from home, saving time and travel hassle</li>
-                                <li>Easily accesable from home, saving time and travel hassle</li>
-                                <li>Easily accesable from home, saving time and travel hassle</li>
+                            <ul class="section1 mt-4">
+                                <li>Konsultasi dengan dokter spesialis berbagai bidang kesehatan</li>
+                                <li>Evaluasi dan diagnosis awal melalui telemedicine</li>
+                                <li>Rekomendasi pengobatan dan tindak lanjut yang tepat</li>
                             </ul>
                         </div>
                         <div class="text-center">
-                            <p><a href="#startconsul" class="btn btn-start">Start Consultation</a>
-                            </p>
+                            <p><a href="#startconsul" class="btn btn-start">Start Consultation</a></p>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
-                        <div class="img-wrap">
-                            <img src="images/consultation.png" class="img-fluid" width="400px" style="margin-right: 80px; 
-                            margin-top: -30px; margin-left: -70px" alt="Responsive Image">
+                    <div class="col-lg-4 col-md-12 mt-5">
+                        <div class="img-wrap text-center">
+                            <img src="images/consultation.png" class="img-fluid consult-image" alt="Responsive Image">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="section">
             <div class="card-container mt-3 item-center" id="startconsul">
@@ -442,12 +440,6 @@ if (isset($_POST['logout'])) {
                                 <li><a href="faq.php">FAQ</a></li>
                             </ul>
                         </div>
-
-                        <!-- <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="aboutus.php">FAQ</a></li>
-                            </ul>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -510,7 +502,7 @@ if (isset($_POST['logout'])) {
                 let cardsToRender = data
                 if (screenWidth < 768) {
                     cardsToRender = data.slice(0, 1);
-                }else if (screenWidth < 1080) {
+                } else if (screenWidth < 1080) {
                     cardsToRender = data.slice(0, 2);
                 } else {
                     cardsToRender = data.slice(0, 4);
@@ -527,7 +519,7 @@ if (isset($_POST['logout'])) {
                         currentPage--;
                         if (screenWidth < 768) {
                             renderCards(data.slice(currentPage * 1, (currentPage + 1) * 1));
-                        }else if (screenWidth < 1080) {
+                        } else if (screenWidth < 1080) {
                             renderCards(data.slice(currentPage * 2, (currentPage + 1) * 2));
                         } else {
                             renderCards(data.slice(currentPage * 4, (currentPage + 1) * 4));
@@ -541,7 +533,7 @@ if (isset($_POST['logout'])) {
                             currentPage++;
                             renderCards(data.slice(currentPage * 1, (currentPage + 1) * 1));
                         }
-                    }else if (screenWidth < 1080) {
+                    } else if (screenWidth < 1080) {
                         if ((currentPage + 1) * 2 < data.length) {
                             currentPage++;
                             renderCards(data.slice(currentPage * 2, (currentPage + 1) * 2));
@@ -605,7 +597,7 @@ if (isset($_POST['logout'])) {
     function generateHistoryEntry(data) {
         return `
         <tr>
-            <td>Dr. ${data.nama}</td>
+            <td>${data.nama}</td>
             <td>${data.spesialis}</td>
             <td>Rp. ${data.total}</td>
             <td>${data.tanggal}</td>
@@ -618,7 +610,7 @@ if (isset($_POST['logout'])) {
     function generateCard(card) {
         const bookNowButton = username ? `
         <button class="btn btn-primary card-btn" data-toggle="modal" data-target="#consultationModal">Book Now</button>
-        ` : '';
+        ` : '<button class="btn btn-primary card-btn" onclick="redirectToLogin()">Book Now</button>';
         return `
             <div class="col">
                 <div class="card" data-card-data='${JSON.stringify(card)}'>
@@ -643,6 +635,10 @@ if (isset($_POST['logout'])) {
                 </div>
             </div>
         `;
+    }
+
+    function redirectToLogin() {
+        window.location.href = 'login.php';
     }
 
     function renderCards(cards) {

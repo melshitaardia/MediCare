@@ -72,7 +72,7 @@ if(isset($_POST['login'])) {
                         ?>
                     </div>
                 <?php endif; ?>
-                <button type="submit" name="login" value="Login">Login <i class="fa fa-arrow-right"></i></button>
+                <button type="submit" name="login" value="Login">Sign In <i class="fa fa-arrow-right"></i></button>
                 <p>Don't have an account? <a href="register.php">Sign Up</a></p>
             </form>
             <img src="images/element.png" class="element-image">

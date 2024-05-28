@@ -1,7 +1,9 @@
 <?php
+include 'database.php';
 session_start();
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+
 
 if (isset($_POST['logout'])) {
     session_unset();
@@ -11,6 +13,7 @@ if (isset($_POST['logout'])) {
     header("Location: login.php");
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -29,43 +32,10 @@ if (isset($_POST['logout'])) {
 
 <body>
     <div class="linear-grad">
-        <div class="p-3 navbarbar">
-            <nav class="custom-navbar navbar navbar navbar-expand-lg navbar-dark bg-dark" arial-label="Warmtalks navigation bar">
-                <div class="container">
-                    <img src="images\logo1.png" class="logo">
-                    <a class="navbar-brand" href="home.php">MediCare<span>.</span></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsWarmtalks" aria-controls="navbarsWarmtalks" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fa fa-bars" style="color: #8b4513;"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarsWarmtalks">
-                        <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="consultation.php">Consultation</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="articles.php">Articles</a>
-                            </li>
-                            <li><a class="nav-link" href="aboutus.php">About Us</a></li>
-                            <li><a class="nav-link" href="faq.php">FAQ</a></li>
-                        </ul>
-                        <ul class="custom-navbar-cta navbar-nav ms-auto mb-2 mb-md-0">
-                            <?php if ($username) : ?>
-                                <li>
-                                    <form method="POST" action="">
-                                        <button type="submit" name="logout" class="btn btn-login">Sign Out</button>
-                                    </form>
-                                </li>
-                            <?php else : ?>
-                                <li>
-                                    <a href="login.php" class="btn btnlogin">Sign In</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
+        <?php
+        include 'navbar.php';
+        ob_end_flush();
+        ?>
 
         <div class="section">
             <div class="container">
@@ -76,9 +46,12 @@ if (isset($_POST['logout'])) {
                                 <span class="warmtalks-text">MediCare</span>
                             </h1>
                             <h4>Welcome, <span class="warmtalks-text"><?php echo $username; ?>!</span></h4>
-                            <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                                iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                                Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
+                            <p class="section1 mb-4">Selamat datang di Medicare, tempat Anda mendapatkan
+                                layanan kesehatan terbaik dari para profesional. Di Medicare,
+                                kami berkomitmen untuk menyediakan konsultasi kesehatan yang aman,
+                                dan terpercaya. Dapatkan nasihat dari dokter ahli kami dan mulai perjalanan
+                                kesehatan Anda dengan langkah yang tepat
+                            </p>
                             <p><a href="articles.php" class="btn btn-home">Get Started</a>
                                 <a href="aboutus.php" class="btn btn-home">Explore</a>
                             </p>
@@ -95,92 +68,13 @@ if (isset($_POST['logout'])) {
         </div>
     </div>
 
-    <!-- <div class="section2-section" id="discoverus">
-        <div class="inner-container container">
-            <div class="row flex-wrap-reverse justify-content-between align-items-center">
-                <div class="col-lg-6 inner">
-                    <h2 class="section-title ">Discover Us</h2>
-                    <p></p>
-
-                    <div class="row my-5">
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="images/home/fitur/medical.png" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Warmtalks Connect</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="images/home/fitur/stethoscope.png" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Pustaka Sumber Daya</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!</p>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="images/home/fitur/pharmacist.png" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Tetap Terinformasi dan Terinspirasi</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-6">
-                            <div class="feature">
-                                <div class="icon">
-                                    <img src="images/home/fitur/checkup.png" alt="Image" class="imf-fluid">
-                                </div>
-                                <h3>Personalized Mood Tracker</h3>
-                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                                    iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                                    Non a, harum pariatur eligendi perspiciatis maxime numquam!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-5 pb-5">
-                    <div class="intro-excerpt">
-                        <h1>"<span class="warmtalks-text">MediCare</span>: Bridging Hearts, Healing Minds"
-                        </h1>
-                        <p class="section1 mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                            iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                            Non a, harum pariatur eligendi perspiciatis maxime numquam!
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed accusamus aliquid
-                            iusto dignissimos iure fugit minus totam, labore neque rem maxime tenetur?
-                            Non a, harum pariatur eligendi perspiciatis maxime numquam!
-                        </p>
-                        <p><a href="aboutus.php" class="btn btn-secondary me-2">Learn More</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <div class="section3-section">
         <div class="inner-container container">
             <div class="row flex-wrap-reverse justify-content-between align-items-center">
                 <div class="col-md-4 p-5 inner position-relative">
                     <img src="images/home/faqs.png" class="img-fluid" width="350px" alt="Left Image">
-                    <div class="section-title1 pt-2 pb-1">Q : Lorem ipsum dolor sit amet, consectetur?<br><br>
-                        <div class="section-title2 pb-2">A: adipiscing elit.
+                    <div class="section-title1 pt-2 pb-1">Q : Apa itu Medicare?<br><br>
+                        <div class="section-title2 pb-2">A: Platform layanan kesehatan.
                         </div>
                     </div>
                     <p>
@@ -203,11 +97,10 @@ if (isset($_POST['logout'])) {
             <div class="row">
             </div>
             <div class="testimonial-block text-center">
-                <blockquote class="mb-5">
-                    <p>&ldquo;Hidup bukanlah tentang menunggu badai berlalu, tapi belajar bagaimana menari
-                        di bawah hujan&rdquo;</p>
+                <blockquote class="mt-2 pt-5 mb-3">
+                    <p>&ldquo;Kesehatan adalah kekayaan sejati yang tak ternilai harganya.&rdquo;</p>
                 </blockquote>
-                <div class="col-lg-7 mx-auto text-lg-end pt-5 pb-5">
+                <div class="col-lg-7 mx-auto text-lg-end pt-4 pb-5">
                     <h2 class="section-title">~ MediCare</h2>
                 </div>
             </div>

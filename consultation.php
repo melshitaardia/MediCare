@@ -472,6 +472,7 @@ if (isset($_POST['logout'])) {
 <script>
     var username = "<?php echo $username; ?>";
     document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('tanggal').setAttribute('min', new Date().toISOString().split('T')[0]);
         const paymentMethodButtons = document.querySelectorAll('input[name="options"]');
         const cardDetails = document.getElementById('card-details');
         const phoneDetails = document.getElementById('phone-details');
@@ -666,11 +667,17 @@ if (isset($_POST['logout'])) {
         if (selectedPaymentMethod.value === 'MasterCard' || selectedPaymentMethod.value === 'Visa' || selectedPaymentMethod.value === 'JCB') {
             if (!cardholderName || !cardNumber || !expiryDate || !cvv) {
                 alert("Please fill in all card details.");
+                setTimeout(function() {
+                    window.location.href = 'consultation.php';
+                }, 500);
                 return false;
             }
         } else {
             if (!phoneNumber) {
                 alert("Please fill in your phone number.");
+                setTimeout(function() {
+                    window.location.href = 'consultation.php';
+                }, 500);
                 return false;
             }
         }

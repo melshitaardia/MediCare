@@ -53,14 +53,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 }
             } else {
-                echo "<script>
-                        alert('Minimal upload gambar gagal.');
-                        setTimeout(function() {
+                $stmt = $conn->prepare("UPDATE akun SET fullname=?, email=?, role=? WHERE username=?");
+                if ($stmt->execute([$newFulls, $newEmails, $roless, $unames])) {
+                    echo "<script>
+                            alert('Data berhasil diperbarui.');
+                            setTimeout(function() {
                             window.location.href = '" . $_SERVER['PHP_SELF'] . "';
-                        }, 500);
+                            }, 500);
                         </script>
                     ";
-                exit;
+                    exit;
+                } else {
+                    echo "Error: " . $stmt->error;
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit;
+                }
             }
         } else if ($_POST['action'] == 'deleteProfiles') {
             $conn = connectDB();
@@ -232,7 +239,7 @@ if (isset($_POST['logout'])) {
                         </div>
                         <div class="mb-3">
                             <label for="profileUpload" class="form-label">Upload Profile Image</label>
-                            <input type="file" class="form-control" name="profilesUpload" id="profilesUpload" required>
+                            <input type="file" class="form-control" name="profilesUpload" id="profilesUpload">
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -46,18 +46,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     echo "<script>
                         alert('Upload gagal.');
+                        setTimeout(function() {
+                            window.location.href = '" . $_SERVER['PHP_SELF'] . "';
+                        }, 500);
                         </script>
                     ";
                     header("Location: " . $_SERVER['PHP_SELF']);
                     exit;
                 }
             } else {
-                echo "<script>
-                        alert('Minimal upload gambar gagal.');
+                $stmt = $conn->prepare("UPDATE akun SET password=?, fullname=?, email=? WHERE username=?");
+                if ($stmt->execute([$newPassword, $newFull, $newEmail, $username])) {
+                    echo "<script>
+                            alert('Data berhasil diperbarui.');
+                            setTimeout(function() {
+                            window.location.href = '" . $_SERVER['PHP_SELF'] . "';
+                            }, 500);
                         </script>
                     ";
-                header("Location: " . $_SERVER['PHP_SELF']);
-                exit;
+                    exit;
+                } else {
+                    echo "Error: " . $stmt->error;
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit;
+                }
             }
         }
     }
@@ -111,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuAvatar">
                                     <li>
-                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">My Profile</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">My Profile</a>
 
                                     </li>
                                     <li>
@@ -159,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="mb-3">
                             <label for="profileUpload" class="form-label">Upload Profile Image</label>
-                            <input type="file" class="form-control" name="profileUpload" id="profileUpload" required>
+                            <input type="file" class="form-control" name="profileUpload" id="profileUpload">
                         </div>
                     </div>
                     <div class="modal-footer">

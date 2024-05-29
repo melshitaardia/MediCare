@@ -201,16 +201,9 @@ if (isset($_POST['logout'])) {
                                     <li><a href="faq.php">FAQ</a></li>
                                 </ul>
                             </div>
-
-                            <!-- <div class="col-6 col-sm-6 col-md-3">
-                            <ul class="list-unstyled">
-                                <li><a href="aboutus.php">FAQ</a></li>
-                            </ul>
-                        </div> -->
                         </div>
                     </div>
                 </div>
-
 
                 <div class="border-top copyright">
                     <div class="row pt-4">

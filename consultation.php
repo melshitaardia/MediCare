@@ -207,7 +207,7 @@ if (isset($_POST['logout'])) {
             position: absolute;
             top: 65%;
             transform: translateY(-50%);
-            background: transparent;
+            background: transparent !important;
             border: none;
             cursor: pointer;
         }
@@ -355,7 +355,7 @@ if (isset($_POST['logout'])) {
                             <div class="form-group col-md-12 flex row justify-content-center">
                                 <div class="form-group col-md-5">
                                     <label for="card" class="form-label">Card Number:</label>
-                                    <input type="text" id="cardNumber" class="form-control" placeholder="Card Number" required><br>
+                                    <input type="number" id="cardNumber" class="form-control" placeholder="Card Number" required><br>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="date" class="form-label">Date:</label>
@@ -363,13 +363,13 @@ if (isset($_POST['logout'])) {
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="ccv" class="form-label">CCV:</label>
-                                    <input type="text" id="cvv" class="form-control" placeholder="CVV" required><br>
+                                    <input type="number" id="cvv" class="form-control" placeholder="CVV" required><br>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group pt-4 col-md-12" id="phone-details" style="display: none;">
                             <label for="phone" class="form-label">Phone Number:</label>
-                            <input type="text" id="phoneNumber" class="form-control w-full" placeholder="Phone Number" required>
+                            <input type="number" id="phoneNumber" class="form-control w-full" placeholder="Phone Number" required>
                         </div>
                     </div>
                     <div class="col-md-5">

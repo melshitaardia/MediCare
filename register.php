@@ -3,12 +3,15 @@ session_start();
 include 'database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = $_POST['fullname'];
+    // $fullname = $_POST['fullname']; 
     $email = $_POST['email'];
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $password = trim($password);
+    $password = stripslashes($password);
+    $password = htmlspecialchars($password);
 
-    if (empty($fullname) || empty($email) || empty($username) || empty($password)) {
+    if (empty($email) || empty($username) || empty($password)) {
         $_SESSION['error'] = "All fields are required.";
     } else {
         $mysqli = connectDB();
@@ -23,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['error'] = "Username already exists.";
             }
         } else {
-            $sql = "INSERT INTO akun (fullname, email, username, password) VALUES ('$fullname', '$email', '$username', '$password')";
+            $sql = "INSERT INTO akun (email, username, password) VALUES ('$email', '$username', '$password')";
             if ($mysqli->query($sql) === TRUE) {
                 echo "<script>alert('Congratulations! Your account has been created.'); 
                 window.location.href = 'login.php';</script>";
@@ -60,9 +63,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-panel">
             <form id="registerForm" method="POST" action="">
                 <h2>Create Account</h2>
-                <div class="input-container" style="margin-top: 4px;">
-                    <input type="text" id="fullname" name="fullname" placeholder="Full Name" required>
-                </div>
                 <div class="input-container">
                     <!-- <input type="email" id="username" name="username" placeholder="Username" required pattern="^\S+@student\.ub\.ac\.id$"> -->
                     <input type="email" id="email" name="email" placeholder="Email" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 <?php endif; ?>
                 <button type="submit">Sign Up</button>
-                <p>Already have an account? <a href="login.php">Log In</a></p>
+                <p>Already have an account? <a href="login.php">Sign In</a></p>
             </form>
             <img src="images/element.png" class="element-image">
         </div>

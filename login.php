@@ -2,14 +2,21 @@
 session_start();
 if(isset($_SESSION['username'])) {
     unset($_SESSION['username']);
+    unset($_SESSION['roles']);
 }
 include 'database.php';
 
 function login($username, $password) {
     $mysqli = connectDB();
+    $password = htmlspecialchars($password);
 
-    $sql = "SELECT * FROM akun WHERE username='$username' AND password='$password'";
-    $result = $mysqli->query($sql);
+    $stmt = $mysqli->prepare("SELECT * FROM akun WHERE username = ? AND password = ?");
+    if ($stmt === false) {
+        die('Prepare failed: ' . htmlspecialchars($mysqli->error));
+    }
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
@@ -25,7 +32,7 @@ function login($username, $password) {
 
 if(isset($_POST['login'])) {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = trim($_POST['password']);
 
     if(empty($username) || empty($password)) {
         $_SESSION['error'] = "Both username and password are required.";

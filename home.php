@@ -52,8 +52,8 @@ if (isset($_POST['logout'])) {
                                 dan terpercaya. Dapatkan nasihat dari dokter ahli kami dan mulai perjalanan
                                 kesehatan Anda dengan langkah yang tepat
                             </p>
-                            <p><a href="articles.php" class="btn btn-home">Get Started</a>
-                                <a href="aboutus.php" class="btn btn-home">Explore</a>
+                            <p><a href="aboutus.php" class="btn btn-home">Get Started</a>
+                                <a href="articles.php" class="btn btn-home">Explore</a>
                             </p>
                         </div>
                     </div>

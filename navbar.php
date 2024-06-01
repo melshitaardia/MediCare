@@ -13,9 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         } elseif ($_POST['action'] == 'editProfile') {
             $conn = connectDB();
-            $newFull = isset($_POST['newFull']) ? $_POST['newFull'] : null;
-            $newEmail = isset($_POST['newEmail']) ? $_POST['newEmail'] : null;
             $newPassword = isset($_POST['newPassword']) ? $_POST['newPassword'] : null;
+            $newPassword = trim($newPassword);
+            $newPassword = stripslashes($newPassword);
+            $newPassword = htmlspecialchars($newPassword);
 
             if (isset($_FILES['profileUpload']) && $_FILES['profileUpload']['error'] == UPLOAD_ERR_OK) {
                 $uploadDirectory = 'finalproject/images/account/';
@@ -28,8 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $destination = $uploadDirectory . $filename;
                 if (move_uploaded_file($_FILES['profileUpload']['tmp_name'], $destination)) {
-                    $stmt = $conn->prepare("UPDATE akun SET profile=?, password=?, fullname=?, email=? WHERE username=?");
-                    if ($stmt->execute([$destination, $newPassword, $newFull, $newEmail, $username])) {
+                    $stmt = $conn->prepare("UPDATE akun SET profile=?, password=?, WHERE username=?");
+                    if ($stmt->execute([$destination, $newPassword, $username])) {
                         echo "<script>
                             alert('Upload berhasil.');
                             setTimeout(function() {
@@ -55,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 }
             } else {
-                $stmt = $conn->prepare("UPDATE akun SET password=?, fullname=?, email=? WHERE username=?");
-                if ($stmt->execute([$newPassword, $newFull, $newEmail, $username])) {
+                $stmt = $conn->prepare("UPDATE akun SET password=? WHERE username=?");
+                if ($stmt->execute([$newPassword, $username])) {
                     echo "<script>
                             alert('Data berhasil diperbarui.');
                             setTimeout(function() {
@@ -153,10 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="modal-body" id="profileModalBody">
                         <img src="" id="profilesImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" />
-                        <div class="mb-3">
-                            <label for="editFull" class="form-label">Full Name</label>
-                            <input type="text" name="newFull" class="form-control" id="full" required>
-                        </div>
+                        
                         <div class="mb-3">
                             <label for="editName" class="form-label">Email</label>
                             <input type="text" name="newEmail" class="form-control" id="email" readonly>
@@ -193,10 +191,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     const filteredUserData = data.filter(user => user.username === "<?php echo $username; ?>");
                     if (filteredUserData.length > 0) {
                         const userData = filteredUserData[0];
-                        document.getElementById('full').value = userData.fullname;
                         document.getElementById('email').value = userData.email;
                         document.getElementById('uname').value = userData.username;
-                        document.getElementById('pasw').value = userData.password;
+                        document.getElementById('pasw').value = decodeHTMLEntities(userData.password);
                         document.getElementById('profileImage').src = userData.profile;
                         document.getElementById('profilesImage').src = userData.profile;
                     } else {
@@ -208,6 +205,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             })
             .catch(error => console.error('Error fetching history data:', error));
     })
+
+    function decodeHTMLEntities(text) {
+        var textArea = document.createElement('textarea');
+        textArea.innerHTML = text;
+        return textArea.value;
+    }
 </script>
 
 </html>

@@ -3,14 +3,16 @@ include 'database.php';
 
 session_start();
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+$roles = isset($_SESSION['roles']) ? $_SESSION['roles'] : null;
+if ($roles !== 'admin') {
+    header("Location: login.php");
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action'])) {
         if ($_POST['action'] == 'editProfiles') {
             $conn = connectDB();
-            $newFulls = isset($_POST['newFulls']) ? $_POST['newFulls'] : null;
             $unames = isset($_POST['unames']) ? $_POST['unames'] : null;
-            $newEmails = isset($_POST['newEmails']) ? $_POST['newEmails'] : null;
             $roless = isset($_POST['roless']) ? $_POST['roless'] : null;
 
             if (isset($_FILES['profilesUpload']) && $_FILES['profilesUpload']['error'] == UPLOAD_ERR_OK) {
@@ -24,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $destination = $uploadDirectory . $filename;
                 if (move_uploaded_file($_FILES['profilesUpload']['tmp_name'], $destination)) {
-                    $stmt = $conn->prepare("UPDATE akun SET profile=?, fullname=?, email=?, role=? WHERE username=?");
-                    if ($stmt->execute([$destination, $newFulls, $newEmails, $roless, $unames])) {
+                    $stmt = $conn->prepare("UPDATE akun SET profile=?, role=? WHERE username=?");
+                    if ($stmt->execute([$destination, $roless, $unames])) {
                         echo "<script>
                             alert('Upload berhasil.');
                             setTimeout(function() {
@@ -53,8 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 }
             } else {
-                $stmt = $conn->prepare("UPDATE akun SET fullname=?, email=?, role=? WHERE username=?");
-                if ($stmt->execute([$newFulls, $newEmails, $roless, $unames])) {
+                $stmt = $conn->prepare("UPDATE akun SET role=? WHERE username=?");
+                if ($stmt->execute([$roless, $unames])) {
                     echo "<script>
                             alert('Data berhasil diperbarui.');
                             setTimeout(function() {
@@ -180,7 +182,6 @@ if (isset($_POST['logout'])) {
                 <tr>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Fullname</th>
                     <th>Profile</th>
                     <th>Role</th>
                     <th class="col-md-2">Action</th>
@@ -217,18 +218,14 @@ if (isset($_POST['logout'])) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="profilesModalsBody">
-                        <img src="" id="profilesImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" />
-                        <div class="mb-3">
-                            <label for="editFull" class="form-label">Full Name</label>
-                            <input type="text" name="newFulls" class="form-control" id="fulls" required>
-                        </div>
+                        <img id="profilesiImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" />
                         <div class="mb-3">
                             <label for="editName" class="form-label">Email</label>
-                            <input type="text" name="newEmails" class="form-control" id="emails" readonly>
+                            <input type="text" name="newEmails" class="form-control" id="emails">
                         </div>
                         <div class="mb-3">
                             <label for="editName" class="form-label">Username</label>
-                            <input type="text" class="form-control" name="unames" id="unames" readonly>
+                            <input type="text" class="form-control" name="unames" id="unames">
                         </div>
                         <div class="mb-3">
                             <label for="editRoles" class="form-label">Roles</label>
@@ -283,7 +280,7 @@ if (isset($_POST['logout'])) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="artedtModalsBody">
-                        <input type="text" name="ids" class="form-control" id="ids" readonly>
+                        <input type="hidden" name="ids" class="form-control" id="ids" readonly>
                         <div class="mb-3">
                             <label for="edittit" class="form-label">Title</label>
                             <input type="text" name="newTit" class="form-control" id="tit" required>
@@ -320,7 +317,7 @@ if (isset($_POST['logout'])) {
                     </div>
                     <div class="modal-body" id="artdelModals">
                         <div class="mb-3">
-                            <input type="text" name="idss" class="form-control" id="idss" readonly>
+                            <input type="hidden" name="idss" class="form-control" id="idss" readonly>
                             <input type="text" class="form-control border-0" name="tits" id="tits" readonly>
                         </div>
                         <p>Apakah anda yakin akan menghapus article dengan title diatas?
@@ -404,12 +401,15 @@ if (isset($_POST['logout'])) {
         fetch('users.php')
             .then(response => response.json())
             .then(userData => {
-                console.log(userData);
-                if (Array.isArray(userData) && userData.length > 0) {
-                    renderUserData(userData);
-                    attachEditEventListeners(userData);
-                } else {
-                    console.error('Error: User data is empty or invalid.');
+                if (Array.isArray(userData)) {
+                    const filteredUserData = userData.filter(user => user.username != "<?php echo $username; ?>");
+                    console.log(filteredUserData);
+                    if (Array.isArray(filteredUserData) && filteredUserData.length > 0) {
+                        renderUserData(filteredUserData);
+                        attachEditEventListeners(filteredUserData);
+                    } else {
+                        console.error('Error: User data is empty or invalid.');
+                    }
                 }
             })
             .catch(error => console.error('Error fetching history data:', error));
@@ -436,7 +436,6 @@ if (isset($_POST['logout'])) {
         <tr>
         <td>${data.username}</td>
         <td>${data.email}</td>
-        <td>${data.fullname}</td>
         <td><img src="${data.profile}" id="profilesImage" class="rounded-circle" height="25" alt="Profile Image" loading="lazy" /></td>
         <td>${data.role}</td>
         <td>
@@ -449,21 +448,48 @@ if (isset($_POST['logout'])) {
         `;
     }
 
+    function htmlspecialchars(str) {
+        return str.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     function attachEditEventListeners(userData) {
         const editBtns = document.querySelectorAll('.edit-btn');
         const delBtns = document.querySelectorAll('.dlt-btn');
+        console.log(userData);
         editBtns.forEach(editBtn => {
             editBtn.addEventListener('click', () => {
-                const dataIndex = editBtn.getAttribute('data-user');
-                const userData = JSON.parse(dataIndex);
-                populateModal(userData);
+                const dataInd = editBtn.getAttribute('data-user');
+                const passwordStartIndex = dataInd.indexOf('"password":"') + '"password":"'.length;
+                const passwordEndIndex = dataInd.indexOf('",', passwordStartIndex);
+                const password = dataInd.substring(passwordStartIndex, passwordEndIndex);
+                const encodedPassword = htmlspecialchars(password);
+                const newDataInd = dataInd.substring(0, passwordStartIndex) + encodedPassword + dataInd.substring(passwordEndIndex);
+                try {
+                    const userData = JSON.parse(newDataInd);
+                    populateModal(userData);
+                } catch (error) {
+                    console.error('Failed to parse JSON for edit:', dataIndex, error);
+                }
             });
         });
         delBtns.forEach(delBtn => {
             delBtn.addEventListener('click', () => {
-                const dataIndex = delBtn.getAttribute('data-user');
-                const userData = JSON.parse(dataIndex);
-                populateModal(userData);
+                const dataInd = delBtn.getAttribute('data-user');
+                const passwordStartIndex = dataInd.indexOf('"password":"') + '"password":"'.length;
+                const passwordEndIndex = dataInd.indexOf('",', passwordStartIndex);
+                const password = dataInd.substring(passwordStartIndex, passwordEndIndex);
+                const encodedPassword = htmlspecialchars(password);
+                const newDataInd = dataInd.substring(0, passwordStartIndex) + encodedPassword + dataInd.substring(passwordEndIndex);
+                try {
+                    const userData = JSON.parse(newDataInd);
+                    populateModal(userData);
+                } catch (error) {
+                    console.error('Failed to parse JSON for edit:', dataIndex, error);
+                }
             });
         });
     }
@@ -472,17 +498,18 @@ if (isset($_POST['logout'])) {
     function populateModal(data) {
         const modalBody = document.getElementById('artModalsLabel');
         const modalImage = document.getElementById('profilesImage');
-        const fullnameInput = document.getElementById('fulls');
+        const modaleImage = document.getElementById('profilesiImage');
         const emailInput = document.getElementById('emails');
         const roleInput = document.getElementById('roless');
         const usernameInput = document.getElementById('unames');
         const un = document.getElementById('un');
-        console.log(data);
         modalImage.src = data.profile;
-        fullnameInput.value = data.fullname;
+        modaleImage.src = data.profile;
         emailInput.value = data.email;
+        emailInput.readOnly = true;
         roleInput.value = data.role;
         usernameInput.value = data.username;
+        usernameInput.readOnly = true;
         un.value = data.username
 
         const modalDialog = document.querySelector('#profilesModals');
@@ -511,7 +538,7 @@ if (isset($_POST['logout'])) {
         <td>
         <form method="POST" action="">
         <a class="btn btn-primary ardit-btn" href="#" data-bs-toggle="modal" data-bs-target="#artedtModals" data-article='${JSON.stringify(data)}'>Edit</a>
-        <a class="btn btn-primary ardel-btn" href="#" data-bs-toggle="modal" data-bs-target="#artdeltModals" data-article='${JSON.stringify(data)}'>Delete</a>
+        <a class="btn btn-primary ardel-btn" href="#" data-bs-toggle="modal" data-bs-target="#artdelModals" data-article='${JSON.stringify(data)}'>Delete</a>
         </form>
         </td>
         </tr>
@@ -541,6 +568,7 @@ if (isset($_POST['logout'])) {
     function populateartModal(data) {
         const modalBody = document.getElementById('profilesModalsBody');
         const tit = document.getElementById('tit');
+        const tits = document.getElementById('tits');
         const con = document.getElementById('con');
         const imgs = document.getElementById('imgs');
         const dates = document.getElementById('dates');
@@ -549,6 +577,7 @@ if (isset($_POST['logout'])) {
         const ids = document.getElementById('ids');
         const idss = document.getElementById('idss');
         tit.value = data.title;
+        tits.value = data.title;
         con.value = data.content;
         imgs.value = data.image;
         dates.value = formattedDate;

@@ -75,22 +75,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn = connectDB();
             $un = isset($_POST['un']) ? $_POST['un'] : null;
             $stmt = $conn->prepare("DELETE FROM akun WHERE username=?");
-            if ($stmt->execute([$un])) {
-                echo "<script>
+            if ($un == $username) {
+                if ($stmt->execute([$un])) {
+                    unset($_SESSION['username']);
+                    unset($_SESSION['roles']);
+                    echo "<script>
                             alert('Data berhasil dihapus.');
                             setTimeout(function() {
-                                window.location.href = '" . $_SERVER['PHP_SELF'] . "';
+                                window.location.href = 'login.php';
                             }, 500);
                             </script>
                         ";
-            } else {
-                echo "<script>
+                } else {
+                    echo "<script>
                         alert('Gagal hapus data.');
                         setTimeout(function() {
                             window.location.href = '" . $_SERVER['PHP_SELF'] . "';
                         }, 500);
                         </script>
                     ";
+                }
+            } else {
+                if ($stmt->execute([$un])) {
+                    echo "<script>
+                            alert('Data berhasil dihapus.');
+                            setTimeout(function() {
+                                window.location.href = '" . $_SERVER['PHP_SELF'] . "';
+                            }, 500);
+                            </script>
+                        ";
+                } else {
+                    echo "<script>
+                        alert('Gagal hapus data.');
+                        setTimeout(function() {
+                            window.location.href = '" . $_SERVER['PHP_SELF'] . "';
+                        }, 500);
+                        </script>
+                    ";
+                }
             }
         } else if ($_POST['action'] == 'editArticles') {
             $conn = connectDB();
@@ -401,15 +423,11 @@ if (isset($_POST['logout'])) {
         fetch('users.php')
             .then(response => response.json())
             .then(userData => {
-                if (Array.isArray(userData)) {
-                    const filteredUserData = userData.filter(user => user.username != "<?php echo $username; ?>");
-                    console.log(filteredUserData);
-                    if (Array.isArray(filteredUserData) && filteredUserData.length > 0) {
-                        renderUserData(filteredUserData);
-                        attachEditEventListeners(filteredUserData);
-                    } else {
-                        console.error('Error: User data is empty or invalid.');
-                    }
+                if (Array.isArray(userData) && userData.length > 0) {
+                    renderUserData(userData);
+                    attachEditEventListeners(userData);
+                } else {
+                    console.error('Error: User data is empty or invalid.');
                 }
             })
             .catch(error => console.error('Error fetching history data:', error));

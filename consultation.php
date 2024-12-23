@@ -268,7 +268,7 @@ if (isset($_POST['logout'])) {
         <div class="section">
             <div class="container" style="margin-right:40px; margin-bottom: 60px;">
                 <div class="row justify-content-between">
-                    <div class="col-lg-6 pb-3">
+                    <div class="col-lg-6 pb-1">
                         <div class="intro-excerpt">
                             <h1>
                                 <span class="consul-text">Concerned about your <br>

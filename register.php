@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if (empty($fullname) || empty($email) || empty($password)) {
+    if (empty($fullname) || empty($username) || empty($password)) {
         $_SESSION['error'] = "All fields are required.";
     } else {
         $mysqli = connectDB();
